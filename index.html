@@ -117,6 +117,11 @@ section{padding-block:clamp(28px,5vw,56px)}
 .card:hover .ph img{transform:scale(1.05)}
 .badge{position:absolute;left:10px;top:10px;font-size:.72rem;font-weight:700;padding:.25rem .6rem;border-radius:99px;background:var(--coral);color:#fff}
 .badge.alt{background:#3A2828;color:#FFF3C6}
+.badge.out{background:var(--ink);color:var(--bg)}
+.card.out .ph img{filter:grayscale(.85);opacity:.55}
+.card.out .price{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px}
+.add:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
+#pdAdd:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;transform:none}
 .badge.low{background:#FFF3C6;color:#8A4B10;box-shadow:inset 0 0 0 1.5px #E9C66A}
 .card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:4px;flex:1}
 .card .dex{color:var(--muted)}
@@ -165,6 +170,7 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 .specs dt{color:var(--muted)}
 .specs dd{margin:0;font-weight:600}
 .buy{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.qty[hidden]{display:none!important}
 .qty{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:99px}
 .qty button{border:0;background:none;width:36px;height:40px;cursor:pointer;font-size:1.1rem}
 .qty output{min-width:2ch;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
@@ -265,7 +271,7 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
         <p class="lead">Charms metálicos, peluches de tiendas de aeropuerto y joyería oficial. Cada pieza llega desde Japón y hay pocas unidades de cada una.</p>
         <div class="ctas">
           <a class="btn primary" href="#tienda" data-go="charms">Ver charms</a>
-          <a class="btn ghost" href="#tienda" data-go="peluches">Peluches exclusivos</a>
+          <a class="btn ghost" href="#tienda" data-go="all">Ver novedades</a>
         </div>
         <div class="facts">
           <span><i></i>100&nbsp;% originales</span>
@@ -280,7 +286,7 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
     <div class="wrap">
       <div class="sec-head"><h2>Compra por categoría</h2></div>
       <div class="cats">
-        <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/of-glaceon.jpg" alt=""></button>
+        <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/nuevo-linea-pichu-zoom.jpg" alt="" style="object-fit:cover"></button>
         <button class="cat" data-go="peluches"><div><h3>Peluches exclusivos</h3><p id="nPeluches"></p></div><img src="img/peluche-pikachu-okinawa.jpg" alt=""></button>
         <button class="cat" data-go="joyeria"><div><h3>Joyería</h3><p id="nJoyeria"></p></div><img src="img/of-gengar-clip-1.jpg" alt=""></button>
         <div class="cat" aria-disabled="true"><div><h3>Cajas exclusivas</h3><p>Boxes y lotes sorpresa de Pokémon Center</p></div><span class="tag">Próximamente</span></div>
@@ -385,39 +391,55 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 <script>
 const CATS={charms:'Charms',peluches:'Peluches',joyeria:'Joyería'};
 const PRODUCTS=[
- {id:'set-eevee',cat:'charms',name:'Set Eevee y sus evoluciones',dex:'0133',price:49.90,imgs:['of-set-eevee-1'],badge:'Set ×8',feat:1,
+ {id:'linea-pichu',cat:'charms',name:'Pichu, Pikachu y Raichu',dex:'0172',price:24.90,imgs:['nuevo-linea-pichu-zoom','nuevo-linea-pichu'],badge:'Nuevo · Set ×3',nuevo:1,
+  desc:'La línea evolutiva de Pikachu al completo: Pichu, Pikachu guiñando un ojo y Raichu. En su tarjeta original de Pokémon Center.',inc:'3 charms en tarjeta original'},
+ {id:'linea-chikorita',cat:'charms',name:'Línea evolutiva de Chikorita',dex:'0152',price:24.90,imgs:['nuevo-linea-chikorita-zoom','nuevo-linea-chikorita'],badge:'Nuevo · Set ×3',nuevo:1,
+  desc:'Chikorita, Bayleef y Meganium, el inicial de planta de Johto.',inc:'3 charms en tarjeta original'},
+ {id:'scyther-scizor',cat:'charms',name:'Dúo Scyther y Scizor',dex:'0123',price:19.90,imgs:['nuevo-scyther-scizor-zoom','nuevo-scyther-scizor'],badge:'Nuevo · Set ×2',nuevo:1,
+  desc:'Scyther y su evolución Scizor, en esmalte verde y rojo.',inc:'2 charms en tarjeta original'},
+ {id:'walking-wake',cat:'charms',name:'Charm Walking Wake',dex:'1009',price:9.90,imgs:['nuevo-walking-wake-zoom','nuevo-walking-wake'],badge:'Nuevo',nuevo:1,
+  desc:'Walking Wake, el Pokémon paradoja del pasado emparentado con Suicune.',inc:'1 charm en tarjeta original'},
+ {id:'linea-tepig',cat:'charms',name:'Línea evolutiva de Tepig',dex:'0498',price:24.90,imgs:['nuevo-linea-tepig-zoom','nuevo-linea-tepig'],badge:'Nuevo · Set ×3',nuevo:1,
+  desc:'Tepig, Pignite y Emboar, el inicial de fuego de Teselia.',inc:'3 charms en tarjeta original'},
+ {id:'snubbull-granbull',cat:'charms',name:'Dúo Snubbull y Granbull',dex:'0209',price:19.90,imgs:['nuevo-snubbull-granbull-zoom','nuevo-snubbull-granbull'],badge:'Nuevo · Set ×2',nuevo:1,
+  desc:'Snubbull y Granbull, en esmalte rosa.',inc:'2 charms en tarjeta original'},
+ {id:'pecharunt',cat:'charms',name:'Charm Pecharunt',dex:'1025',price:9.90,imgs:['nuevo-pecharunt-zoom','nuevo-pecharunt'],badge:'Nuevo',nuevo:1,
+  desc:'Pecharunt dentro de su caparazón con forma de melocotón, en rosa y morado.',inc:'1 charm en tarjeta original'},
+ {id:'okidogi',cat:'charms',name:'Charm Okidogi',dex:'1014',price:9.90,imgs:['nuevo-okidogi-zoom','nuevo-okidogi'],badge:'Nuevo',nuevo:1,
+  desc:'Okidogi, uno de los tres compinches de Kitakami, en negro, verde y rosa.',inc:'1 charm en tarjeta original'},
+ {soldout:1,id:'set-eevee',cat:'charms',name:'Set Eevee y sus evoluciones',dex:'0133',price:49.90,imgs:['of-set-eevee-1'],badge:'Set ×8',feat:1,
   desc:'Los ocho charms de Eevee, Vaporeon, Jolteon, Flareon, Espeon, Umbreon, Leafeon y Glaceon, cada uno con su mosquetón plateado.',inc:'8 charms',size:'3–4 cm cada uno'},
- {id:'pikachu-hnd',cat:'peluches',name:'Pikachu piloto · Aeropuerto de Haneda',dex:'0025',price:74.90,imgs:['peluche-pikachu-hnd','peluche-pikachu-hnd-2'],badge:'Exclusivo aeropuerto',badgeAlt:1,feat:1,
+ {soldout:1,id:'pikachu-hnd',cat:'peluches',name:'Pikachu piloto · Aeropuerto de Haneda',dex:'0025',price:74.90,imgs:['peluche-pikachu-hnd','peluche-pikachu-hnd-2'],badge:'Exclusivo aeropuerto',badgeAlt:1,feat:1,
   desc:'Pikachu con uniforme de piloto, gorra y corbata. Solo se vende en la Pokémon Store del aeropuerto de Haneda (HND). Incluye etiqueta y bolsa originales.',inc:'Peluche + bolsa de la tienda',size:'Unos 20 cm',origin:'Pokémon Store Haneda (HND)'},
- {id:'gengar-clip',cat:'joyeria',name:'Pendiente de clip Gengar',dex:'0094',price:14.90,imgs:['of-gengar-clip-1','of-gengar-clip-2','of-gengar-clip-3'],feat:1,
+ {soldout:1,id:'gengar-clip',cat:'joyeria',name:'Pendiente de clip Gengar',dex:'0094',price:14.90,imgs:['of-gengar-clip-1','of-gengar-clip-2','of-gengar-clip-3'],feat:1,
   desc:'Pendiente esmaltado de Gengar con cierre de clip de rosca, para orejas sin agujero. Acabado dorado.',inc:'1 pendiente',size:'1,5 cm aprox.',material:'Metal esmaltado, acabado dorado'},
- {id:'pikachu-okinawa',cat:'peluches',name:'Pikachu con kimono · Okinawa',dex:'0025',price:74.90,imgs:['peluche-pikachu-okinawa','peluche-pikachu-okinawa-2'],badge:'Exclusivo regional',badgeAlt:1,feat:1,
+ {soldout:1,id:'pikachu-okinawa',cat:'peluches',name:'Pikachu con kimono · Okinawa',dex:'0025',price:74.90,imgs:['peluche-pikachu-okinawa','peluche-pikachu-okinawa-2'],badge:'Exclusivo regional',badgeAlt:1,feat:1,
   desc:'Pikachu vestido con kimono estampado, cinta en la cabeza y sombrero de flor a la espalda, inspirado en la danza tradicional de Okinawa.',inc:'Peluche con etiqueta',size:'Unos 20 cm',origin:'Pokémon Center Okinawa'},
- {id:'lugia',cat:'charms',name:'Charm Lugia',dex:'0249',price:9.90,imgs:['of-lugia-1','of-lugia-2'],feat:1,desc:'Lugia con las alas abiertas, esmalte blanco y azul.'},
- {id:'set-tyrogue',cat:'charms',name:'Set Tyrogue y Hitmon',dex:'0236',price:29.90,imgs:['of-set-tyrogue-1','of-set-tyrogue-2'],badge:'Set ×4',
+ {soldout:1,id:'lugia',cat:'charms',name:'Charm Lugia',dex:'0249',price:9.90,imgs:['of-lugia-1','of-lugia-2'],feat:1,desc:'Lugia con las alas abiertas, esmalte blanco y azul.'},
+ {soldout:1,id:'set-tyrogue',cat:'charms',name:'Set Tyrogue y Hitmon',dex:'0236',price:29.90,imgs:['of-set-tyrogue-1','of-set-tyrogue-2'],badge:'Set ×4',
   desc:'Tyrogue con sus tres evoluciones: Hitmonlee, Hitmonchan y Hitmontop.',inc:'4 charms'},
- {id:'pikachu-cts',cat:'peluches',name:'Pikachu piloto · Aeropuerto de New Chitose',dex:'0025',price:74.90,imgs:['peluche-pikachu-cts'],badge:'Exclusivo aeropuerto',badgeAlt:1,
+ {soldout:1,id:'pikachu-cts',cat:'peluches',name:'Pikachu piloto · Aeropuerto de New Chitose',dex:'0025',price:74.90,imgs:['peluche-pikachu-cts'],badge:'Exclusivo aeropuerto',badgeAlt:1,
   desc:'Versión de Pikachu piloto de la Pokémon Store del aeropuerto de New Chitose (CTS), en Hokkaido. Con etiqueta original.',inc:'Peluche con etiqueta',size:'Unos 20 cm',origin:'Pokémon Store New Chitose (CTS)'},
- {id:'linea-cyndaquil',cat:'charms',name:'Línea evolutiva de Cyndaquil',dex:'0155',price:24.90,imgs:['of-linea-cyndaquil-1'],badge:'Set ×3',desc:'Cyndaquil, Quilava y Typhlosion.',inc:'3 charms'},
- {id:'set-necrozma',cat:'charms',name:'Set Necrozma',dex:'0800',price:29.90,imgs:['of-necrozma-1','of-necrozma-2'],badge:'Últimas unidades',low:1,
+ {soldout:1,id:'linea-cyndaquil',cat:'charms',name:'Línea evolutiva de Cyndaquil',dex:'0155',price:24.90,imgs:['of-linea-cyndaquil-1'],badge:'Set ×3',desc:'Cyndaquil, Quilava y Typhlosion.',inc:'3 charms'},
+ {soldout:1,id:'set-necrozma',cat:'charms',name:'Set Necrozma',dex:'0800',price:29.90,imgs:['of-necrozma-1','of-necrozma-2'],badge:'Últimas unidades',low:1,
   desc:'Necrozma en sus cuatro formas: normal, Melena Crepuscular, Alas del Alba y Ultra-Necrozma.',inc:'4 charms'},
- {id:'set-cosmog',cat:'charms',name:'Set Cosmog y legendarios de Alola',dex:'0789',price:29.90,imgs:['of-set-cosmog-1','of-set-cosmog-2'],badge:'Set ×4',desc:'Cosmog, Cosmoem, Solgaleo y Lunala.',inc:'4 charms'},
- {id:'master-ball',cat:'joyeria',name:'Pendiente Master Ball',dex:'',price:12.90,imgs:['of-master-ball-1','of-master-ball-2','of-master-ball-3'],
+ {soldout:1,id:'set-cosmog',cat:'charms',name:'Set Cosmog y legendarios de Alola',dex:'0789',price:29.90,imgs:['of-set-cosmog-1','of-set-cosmog-2'],badge:'Set ×4',desc:'Cosmog, Cosmoem, Solgaleo y Lunala.',inc:'4 charms'},
+ {soldout:1,id:'master-ball',cat:'joyeria',name:'Pendiente Master Ball',dex:'',price:12.90,imgs:['of-master-ball-1','of-master-ball-2','of-master-ball-3'],
   desc:'Pendiente de botón con forma de Master Ball, en su tarjeta original de Pokémon Center. Para orejas con agujero.',inc:'1 pendiente en tarjeta',size:'0,8 cm aprox.',material:'Metal esmaltado'},
- {id:'glaceon',cat:'charms',name:'Charm Glaceon',dex:'0471',price:9.90,imgs:['of-glaceon'],desc:'Glaceon sentado, esmalte en tonos azul hielo.'},
- {id:'linea-squirtle',cat:'charms',name:'Línea evolutiva de Squirtle',dex:'0007',price:24.90,imgs:['of-linea-squirtle-1','of-linea-squirtle-2'],badge:'Set ×3',desc:'Squirtle, Wartortle y Blastoise.',inc:'3 charms'},
- {id:'blastoise',cat:'charms',name:'Charm Blastoise',dex:'0009',price:9.90,imgs:['of-blastoise'],desc:'Blastoise con sus cañones, en tamaño grande.'},
- {id:'gyarados',cat:'charms',name:'Charm Gyarados',dex:'0130',price:9.90,imgs:['of-gyarados'],desc:'Gyarados enroscado, esmalte azul con detalles dorados.'},
- {id:'linea-slowpoke',cat:'charms',name:'Línea de Slowpoke',dex:'0079',price:24.90,imgs:['of-linea-slowpoke-1','of-linea-slowpoke-2'],badge:'Set ×3',desc:'Slowpoke, Slowbro y Slowking.',inc:'3 charms'},
- {id:'quilava',cat:'charms',name:'Charm Quilava',dex:'0156',price:9.90,imgs:['of-quilava'],desc:'Quilava con sus llamas en esmalte naranja.'},
- {id:'kyurem',cat:'charms',name:'Charm Kyurem',dex:'0646',price:9.90,imgs:['of-kyurem'],desc:'Kyurem en esmalte gris y azul hielo, con los ojos en amarillo.'},
- {id:'duo-hitmon',cat:'charms',name:'Dúo Hitmonlee y Hitmonchan',dex:'0106',price:19.90,imgs:['of-duo-hitmon'],badge:'Set ×2',desc:'Los dos luchadores clásicos de Kanto.',inc:'2 charms'},
- {id:'ho-oh',cat:'charms',name:'Charm Ho-Oh',dex:'0250',price:9.90,imgs:['of-ho-oh-1','of-ho-oh-2'],desc:'Ho-Oh en vuelo, esmalte multicolor.'},
- {id:'suicune',cat:'charms',name:'Charm Suicune',dex:'0245',price:9.90,imgs:['of-suicune-1','of-suicune-2'],desc:'Suicune, una de las bestias legendarias de Johto.'},
- {id:'raikou',cat:'charms',name:'Charm Raikou',dex:'0243',price:9.90,imgs:['of-raikou-1','of-raikou-2'],badge:'Últimas unidades',low:1,desc:'Raikou, una de las bestias legendarias de Johto.'},
- {id:'linea-larvitar',cat:'charms',name:'Línea evolutiva de Larvitar',dex:'0246',price:24.90,imgs:['of-linea-larvitar-1','of-linea-larvitar-2'],badge:'Set ×3',desc:'Larvitar, Pupitar y Tyranitar.',inc:'3 charms'},
- {id:'linea-totodile',cat:'charms',name:'Línea evolutiva de Totodile',dex:'0158',price:24.90,imgs:['of-linea-totodile-1','of-linea-totodile-2'],badge:'Set ×3',desc:'Totodile, Croconaw y Feraligatr.',inc:'3 charms'},
- {id:'croconaw',cat:'charms',name:'Charm Croconaw',dex:'0159',price:9.90,imgs:['of-croconaw'],desc:'Croconaw con su cresta roja.'},
+ {soldout:1,id:'glaceon',cat:'charms',name:'Charm Glaceon',dex:'0471',price:9.90,imgs:['of-glaceon'],desc:'Glaceon sentado, esmalte en tonos azul hielo.'},
+ {soldout:1,id:'linea-squirtle',cat:'charms',name:'Línea evolutiva de Squirtle',dex:'0007',price:24.90,imgs:['of-linea-squirtle-1','of-linea-squirtle-2'],badge:'Set ×3',desc:'Squirtle, Wartortle y Blastoise.',inc:'3 charms'},
+ {soldout:1,id:'blastoise',cat:'charms',name:'Charm Blastoise',dex:'0009',price:9.90,imgs:['of-blastoise'],desc:'Blastoise con sus cañones, en tamaño grande.'},
+ {soldout:1,id:'gyarados',cat:'charms',name:'Charm Gyarados',dex:'0130',price:9.90,imgs:['of-gyarados'],desc:'Gyarados enroscado, esmalte azul con detalles dorados.'},
+ {soldout:1,id:'linea-slowpoke',cat:'charms',name:'Línea de Slowpoke',dex:'0079',price:24.90,imgs:['of-linea-slowpoke-1','of-linea-slowpoke-2'],badge:'Set ×3',desc:'Slowpoke, Slowbro y Slowking.',inc:'3 charms'},
+ {soldout:1,id:'quilava',cat:'charms',name:'Charm Quilava',dex:'0156',price:9.90,imgs:['of-quilava'],desc:'Quilava con sus llamas en esmalte naranja.'},
+ {soldout:1,id:'kyurem',cat:'charms',name:'Charm Kyurem',dex:'0646',price:9.90,imgs:['of-kyurem'],desc:'Kyurem en esmalte gris y azul hielo, con los ojos en amarillo.'},
+ {soldout:1,id:'duo-hitmon',cat:'charms',name:'Dúo Hitmonlee y Hitmonchan',dex:'0106',price:19.90,imgs:['of-duo-hitmon'],badge:'Set ×2',desc:'Los dos luchadores clásicos de Kanto.',inc:'2 charms'},
+ {soldout:1,id:'ho-oh',cat:'charms',name:'Charm Ho-Oh',dex:'0250',price:9.90,imgs:['of-ho-oh-1','of-ho-oh-2'],desc:'Ho-Oh en vuelo, esmalte multicolor.'},
+ {soldout:1,id:'suicune',cat:'charms',name:'Charm Suicune',dex:'0245',price:9.90,imgs:['of-suicune-1','of-suicune-2'],desc:'Suicune, una de las bestias legendarias de Johto.'},
+ {soldout:1,id:'raikou',cat:'charms',name:'Charm Raikou',dex:'0243',price:9.90,imgs:['of-raikou-1','of-raikou-2'],badge:'Últimas unidades',low:1,desc:'Raikou, una de las bestias legendarias de Johto.'},
+ {soldout:1,id:'linea-larvitar',cat:'charms',name:'Línea evolutiva de Larvitar',dex:'0246',price:24.90,imgs:['of-linea-larvitar-1','of-linea-larvitar-2'],badge:'Set ×3',desc:'Larvitar, Pupitar y Tyranitar.',inc:'3 charms'},
+ {soldout:1,id:'linea-totodile',cat:'charms',name:'Línea evolutiva de Totodile',dex:'0158',price:24.90,imgs:['of-linea-totodile-1','of-linea-totodile-2'],badge:'Set ×3',desc:'Totodile, Croconaw y Feraligatr.',inc:'3 charms'},
+ {soldout:1,id:'croconaw',cat:'charms',name:'Charm Croconaw',dex:'0159',price:9.90,imgs:['of-croconaw'],desc:'Croconaw con su cresta roja.'},
 ];
 PRODUCTS.forEach((p,i)=>p.order=i);
 const byId=Object.fromEntries(PRODUCTS.map(p=>[p.id,p]));
@@ -431,14 +453,16 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 let filter='all', query='', sort='feat';
 let cart={};
 try{cart=JSON.parse(localStorage.getItem('poket-cart')||'{}')||{}}catch(e){cart={}}
-for(const k in cart) if(!byId[k]) delete cart[k];
+for(const k in cart) if(!byId[k]||byId[k].soldout) delete cart[k];
 const save=()=>{try{localStorage.setItem('poket-cart',JSON.stringify(cart))}catch(e){}};
 
 /* contadores de categoría */
 const count=c=>PRODUCTS.filter(p=>p.cat===c).length;
-$('#nCharms').textContent=`${count('charms')} productos · sets y sueltos`;
-$('#nPeluches').textContent=`${count('peluches')} productos · tiendas de aeropuerto`;
-$('#nJoyeria').textContent=`${count('joyeria')} productos · pendientes`;
+const avail=c=>PRODUCTS.filter(p=>p.cat===c&&!p.soldout).length;
+const catTxt=(c,extra)=>avail(c)?`${avail(c)} disponibles · ${extra}`:'Agotados · vuelven pronto';
+$('#nCharms').textContent=catTxt('charms','sets y sueltos');
+$('#nPeluches').textContent=catTxt('peluches','tiendas de aeropuerto');
+$('#nJoyeria').textContent=catTxt('joyeria','pendientes');
 
 function renderChips(){
   const opts=[['all','Todo',PRODUCTS.length],...Object.entries(CATS).map(([k,v])=>[k,v,count(k)])];
@@ -450,20 +474,21 @@ function renderGrid(){
   if(sort==='asc') list.sort((a,b)=>a.price-b.price);
   else if(sort==='desc') list.sort((a,b)=>b.price-a.price);
   else if(sort==='dex') list.sort((a,b)=>(a.dex||'9999').localeCompare(b.dex||'9999'));
-  else list.sort((a,b)=>(b.feat||0)-(a.feat||0)||a.order-b.order);
+  else list.sort((a,b)=>(b.nuevo||0)-(a.nuevo||0)||(b.feat||0)-(a.feat||0)||a.order-b.order);
+  list.sort((a,b)=>(a.soldout?1:0)-(b.soldout?1:0));
   $('#shopTitle').textContent=filter==='all'?'Toda la tienda':CATS[filter];
   $('#grid').innerHTML=list.length?list.map(p=>`
-    <article class="card">
+    <article class="card${p.soldout?' out':''}">
       <button class="ph" data-open="${p.id}" aria-label="Ver ${esc(p.name)}">
         <img src="${src(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">
-        ${p.badge?`<span class="badge ${p.low?'low':p.badgeAlt?'alt':''}">${p.badge}</span>`:''}
+        ${p.soldout?'<span class="badge out">Agotado</span>':p.badge?`<span class="badge ${p.low?'low':p.badgeAlt?'alt':''}">${p.badge}</span>`:''}
       </button>
       <div class="body">
         <div class="dex mono">${p.dex?'Nº '+p.dex:'Accesorio'} · ${CATS[p.cat]}</div>
         <h3><button data-open="${p.id}">${esc(p.name)}</button></h3>
         <div class="orig">${esc(p.origin||'Pokémon Center Japón')}</div>
         <div class="row"><span class="price">${eur(p.price)}</span>
-          <button class="add" data-add="${p.id}" aria-label="Añadir ${esc(p.name)} al carrito"><span aria-hidden="true">+</span><span class="lbl">Añadir</span></button></div>
+          ${p.soldout?`<button class="add" disabled aria-label="${esc(p.name)} agotado"><span class="lbl">Agotado</span></button>`:`<button class="add" data-add="${p.id}" aria-label="Añadir ${esc(p.name)} al carrito"><span aria-hidden="true">+</span><span class="lbl">Añadir</span></button>`}</div>
       </div>
     </article>`).join('')
     :`<div class="empty"><b>No hay nada con «${esc(query)}».</b><br>Prueba con otro nombre de Pokémon o mira toda la tienda.</div>`;
@@ -481,6 +506,7 @@ function openProduct(id){
   const specs=[['Incluye',cur.inc||'1 charm con mosquetón'],['Tamaño',cur.size||'3–5 cm aprox. (ver foto con regla)'],['Material',cur.material||(cur.cat==='peluches'?'Felpa y poliéster':'Metal esmaltado')],['Origen',cur.origin||'Pokémon Center Japón']];
   $('#pdSpecs').innerHTML=specs.map(([a,b])=>`<dt>${a}</dt><dd>${esc(b)}</dd>`).join('');
   showImg(0);
+  $('#pdAdd').disabled=!!cur.soldout; $('#pdAdd').textContent=cur.soldout?'Agotado':'Añadir al carrito'; document.querySelector('.buy .qty').hidden=!!cur.soldout;
   $('#pdThumbs').innerHTML=cur.imgs.length>1?cur.imgs.map((m,i)=>`<button data-i="${i}" aria-label="Foto ${i+1}" aria-current="${i===0}"><img src="${src(m)}" alt=""></button>`).join(''):'';
   $('#pd').showModal();
 }
@@ -497,6 +523,7 @@ $('#pd').addEventListener('click',e=>{if(e.target===$('#pd'))$('#pd').close()});
 
 /* carrito */
 function add(id,n=1){
+  if(byId[id].soldout) return;
   cart[id]=Math.min(9,(cart[id]||0)+n); save(); updateCount();
   toast(`${byId[id].name} añadido al carrito`);
   const b=$('#openCart'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
