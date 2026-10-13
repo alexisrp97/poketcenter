@@ -286,7 +286,7 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
     <div class="wrap">
       <div class="sec-head"><h2>Compra por categoría</h2></div>
       <div class="cats">
-        <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/nuevo-linea-pichu-zoom.jpg" alt="" style="object-fit:cover"></button>
+        <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/nuevo-linea-pichu.jpg" alt=""></button>
         <button class="cat" data-go="peluches"><div><h3>Peluches exclusivos</h3><p id="nPeluches"></p></div><img src="img/peluche-pikachu-okinawa.jpg" alt=""></button>
         <button class="cat" data-go="joyeria"><div><h3>Joyería</h3><p id="nJoyeria"></p></div><img src="img/of-gengar-clip-1.jpg" alt=""></button>
         <div class="cat" aria-disabled="true"><div><h3>Cajas exclusivas</h3><p>Boxes y lotes sorpresa de Pokémon Center</p></div><span class="tag">Próximamente</span></div>
@@ -391,21 +391,21 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 <script>
 const CATS={charms:'Charms',peluches:'Peluches',joyeria:'Joyería'};
 const PRODUCTS=[
- {id:'linea-pichu',cat:'charms',name:'Pichu, Pikachu y Raichu',dex:'0172',price:24.90,imgs:['nuevo-linea-pichu-zoom','nuevo-linea-pichu'],badge:'Nuevo · Set ×3',nuevo:1,
+ {id:'linea-pichu',cat:'charms',name:'Pichu, Pikachu y Raichu',dex:'0172',price:24.90,imgs:['nuevo-linea-pichu'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'La línea evolutiva de Pikachu al completo: Pichu, Pikachu guiñando un ojo y Raichu. En su tarjeta original de Pokémon Center.',inc:'3 charms en tarjeta original'},
- {id:'linea-chikorita',cat:'charms',name:'Línea evolutiva de Chikorita',dex:'0152',price:24.90,imgs:['nuevo-linea-chikorita-zoom','nuevo-linea-chikorita'],badge:'Nuevo · Set ×3',nuevo:1,
+ {id:'linea-chikorita',cat:'charms',name:'Línea evolutiva de Chikorita',dex:'0152',price:24.90,imgs:['nuevo-linea-chikorita'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'Chikorita, Bayleef y Meganium, el inicial de planta de Johto.',inc:'3 charms en tarjeta original'},
- {id:'scyther-scizor',cat:'charms',name:'Dúo Scyther y Scizor',dex:'0123',price:19.90,imgs:['nuevo-scyther-scizor-zoom','nuevo-scyther-scizor'],badge:'Nuevo · Set ×2',nuevo:1,
+ {id:'scyther-scizor',cat:'charms',name:'Dúo Scyther y Scizor',dex:'0123',price:19.90,imgs:['nuevo-scyther-scizor'],badge:'Nuevo · Set ×2',nuevo:1,
   desc:'Scyther y su evolución Scizor, en esmalte verde y rojo.',inc:'2 charms en tarjeta original'},
- {id:'walking-wake',cat:'charms',name:'Charm Walking Wake',dex:'1009',price:9.90,imgs:['nuevo-walking-wake-zoom','nuevo-walking-wake'],badge:'Nuevo',nuevo:1,
+ {id:'walking-wake',cat:'charms',name:'Charm Walking Wake',dex:'1009',price:9.90,imgs:['nuevo-walking-wake'],badge:'Nuevo',nuevo:1,
   desc:'Walking Wake, el Pokémon paradoja del pasado emparentado con Suicune.',inc:'1 charm en tarjeta original'},
- {id:'linea-tepig',cat:'charms',name:'Línea evolutiva de Tepig',dex:'0498',price:24.90,imgs:['nuevo-linea-tepig-zoom','nuevo-linea-tepig'],badge:'Nuevo · Set ×3',nuevo:1,
+ {id:'linea-tepig',cat:'charms',name:'Línea evolutiva de Tepig',dex:'0498',price:24.90,imgs:['nuevo-linea-tepig'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'Tepig, Pignite y Emboar, el inicial de fuego de Teselia.',inc:'3 charms en tarjeta original'},
- {id:'snubbull-granbull',cat:'charms',name:'Dúo Snubbull y Granbull',dex:'0209',price:19.90,imgs:['nuevo-snubbull-granbull-zoom','nuevo-snubbull-granbull'],badge:'Nuevo · Set ×2',nuevo:1,
+ {id:'snubbull-granbull',cat:'charms',name:'Dúo Snubbull y Granbull',dex:'0209',price:19.90,imgs:['nuevo-snubbull-granbull'],badge:'Nuevo · Set ×2',nuevo:1,
   desc:'Snubbull y Granbull, en esmalte rosa.',inc:'2 charms en tarjeta original'},
- {id:'pecharunt',cat:'charms',name:'Charm Pecharunt',dex:'1025',price:9.90,imgs:['nuevo-pecharunt-zoom','nuevo-pecharunt'],badge:'Nuevo',nuevo:1,
+ {id:'pecharunt',cat:'charms',name:'Charm Pecharunt',dex:'1025',price:9.90,imgs:['nuevo-pecharunt'],badge:'Nuevo',nuevo:1,
   desc:'Pecharunt dentro de su caparazón con forma de melocotón, en rosa y morado.',inc:'1 charm en tarjeta original'},
- {id:'okidogi',cat:'charms',name:'Charm Okidogi',dex:'1014',price:9.90,imgs:['nuevo-okidogi-zoom','nuevo-okidogi'],badge:'Nuevo',nuevo:1,
+ {id:'okidogi',cat:'charms',name:'Charm Okidogi',dex:'1014',price:9.90,imgs:['nuevo-okidogi'],badge:'Nuevo',nuevo:1,
   desc:'Okidogi, uno de los tres compinches de Kitakami, en negro, verde y rosa.',inc:'1 charm en tarjeta original'},
  {soldout:1,id:'set-eevee',cat:'charms',name:'Set Eevee y sus evoluciones',dex:'0133',price:49.90,imgs:['of-set-eevee-1'],badge:'Set ×8',feat:1,
   desc:'Los ocho charms de Eevee, Vaporeon, Jolteon, Flareon, Espeon, Umbreon, Leafeon y Glaceon, cada uno con su mosquetón plateado.',inc:'8 charms',size:'3–4 cm cada uno'},
