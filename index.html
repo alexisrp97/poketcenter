@@ -391,6 +391,14 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 <script>
 const CATS={charms:'Charms',peluches:'Peluches',joyeria:'Joyería'};
 const PRODUCTS=[
+ {id:'houndour-houndoom',cat:'charms',name:'Dúo Houndour y Houndoom',dex:'0228',price:19.90,imgs:['nuevo-houndour-houndoom'],badge:'Nuevo · Set ×2',nuevo:1,
+  desc:'Houndour y su evolución Houndoom, los perros de fuego y siniestro de Johto.',inc:'2 charms en tarjeta original'},
+ {id:'entei',cat:'charms',name:'Charm Entei',dex:'0244',price:9.90,imgs:['nuevo-entei'],badge:'Nuevo',nuevo:1,
+  desc:'Entei, una de las tres bestias legendarias de Johto, con su melena de fuego.',inc:'1 charm en tarjeta original'},
+ {id:'iron-crown',cat:'charms',name:'Charm Iron Crown',dex:'1023',price:9.90,imgs:['nuevo-iron-crown'],badge:'Nuevo',nuevo:1,
+  desc:'Iron Crown, el Pokémon paradoja del futuro emparentado con Cobalion.',inc:'1 charm en tarjeta original'},
+ {id:'sentret-furret',cat:'charms',name:'Dúo Sentret y Furret',dex:'0161',price:19.90,imgs:['nuevo-sentret-furret'],badge:'Nuevo · Set ×2',nuevo:1,
+  desc:'Sentret y Furret, la pareja más simpática de Johto.',inc:'2 charms en tarjeta original'},
  {id:'pikachu-tokyo-station',cat:'peluches',name:'Pikachu jefe de estación · Tokyo Station',dex:'0025',price:74.90,imgs:['nuevo-pikachu-tokyo-station'],badge:'Nuevo · Exclusivo',nuevo:1,
   desc:'Pikachu con uniforme azul de jefe de estación, gorra con Poké Ball y «TOKYO Sta.» bordado en la chaqueta. Solo se vende en la Pokémon Store de la estación de Tokio.',inc:'1 peluche',size:'Pequeño, tipo mascota',material:'Felpa y poliéster',origin:'Pokémon Store Tokyo Station'},
  {id:'pikachu-30-aniversario',cat:'peluches',name:'Pikachu 30 aniversario',dex:'0025',price:74.90,imgs:['nuevo-pikachu-30-aniversario'],badge:'Nuevo · Edición 30 aniversario',nuevo:1,
@@ -424,7 +432,7 @@ const PRODUCTS=[
   desc:'Tyrogue con sus tres evoluciones: Hitmonlee, Hitmonchan y Hitmontop.',inc:'4 charms'},
  {soldout:1,id:'pikachu-cts',cat:'peluches',name:'Pikachu piloto · Aeropuerto de New Chitose',dex:'0025',price:74.90,imgs:['peluche-pikachu-cts'],badge:'Exclusivo aeropuerto',badgeAlt:1,
   desc:'Versión de Pikachu piloto de la Pokémon Store del aeropuerto de New Chitose (CTS), en Hokkaido. Con etiqueta original.',inc:'Peluche con etiqueta',size:'Unos 20 cm',origin:'Pokémon Store New Chitose (CTS)'},
- {soldout:1,id:'linea-cyndaquil',cat:'charms',name:'Línea evolutiva de Cyndaquil',dex:'0155',price:24.90,imgs:['of-linea-cyndaquil-1'],badge:'Set ×3',desc:'Cyndaquil, Quilava y Typhlosion.',inc:'3 charms'},
+ {nuevo:1,id:'linea-cyndaquil',cat:'charms',name:'Línea evolutiva de Cyndaquil',dex:'0155',price:24.90,imgs:['of-linea-cyndaquil-1','stock-linea-cyndaquil'],badge:'De nuevo en stock',desc:'Cyndaquil, Quilava y Typhlosion.',inc:'3 charms'},
  {soldout:1,id:'set-necrozma',cat:'charms',name:'Set Necrozma',dex:'0800',price:29.90,imgs:['of-necrozma-1','of-necrozma-2'],badge:'Últimas unidades',low:1,
   desc:'Necrozma en sus cuatro formas: normal, Melena Crepuscular, Alas del Alba y Ultra-Necrozma.',inc:'4 charms'},
  {soldout:1,id:'set-cosmog',cat:'charms',name:'Set Cosmog y legendarios de Alola',dex:'0789',price:29.90,imgs:['of-set-cosmog-1','of-set-cosmog-2'],badge:'Set ×4',desc:'Cosmog, Cosmoem, Solgaleo y Lunala.',inc:'4 charms'},
@@ -441,7 +449,7 @@ const PRODUCTS=[
  {soldout:1,id:'ho-oh',cat:'charms',name:'Charm Ho-Oh',dex:'0250',price:9.90,imgs:['of-ho-oh-1','of-ho-oh-2'],desc:'Ho-Oh en vuelo, esmalte multicolor.'},
  {soldout:1,id:'suicune',cat:'charms',name:'Charm Suicune',dex:'0245',price:9.90,imgs:['of-suicune-1','of-suicune-2'],desc:'Suicune, una de las bestias legendarias de Johto.'},
  {soldout:1,id:'raikou',cat:'charms',name:'Charm Raikou',dex:'0243',price:9.90,imgs:['of-raikou-1','of-raikou-2'],badge:'Últimas unidades',low:1,desc:'Raikou, una de las bestias legendarias de Johto.'},
- {soldout:1,id:'linea-larvitar',cat:'charms',name:'Línea evolutiva de Larvitar',dex:'0246',price:24.90,imgs:['of-linea-larvitar-1','of-linea-larvitar-2'],badge:'Set ×3',desc:'Larvitar, Pupitar y Tyranitar.',inc:'3 charms'},
+ {nuevo:1,id:'linea-larvitar',cat:'charms',name:'Línea evolutiva de Larvitar',dex:'0246',price:24.90,imgs:['of-linea-larvitar-1','of-linea-larvitar-2','stock-linea-larvitar'],badge:'De nuevo en stock',desc:'Larvitar, Pupitar y Tyranitar.',inc:'3 charms'},
  {soldout:1,id:'linea-totodile',cat:'charms',name:'Línea evolutiva de Totodile',dex:'0158',price:24.90,imgs:['of-linea-totodile-1','of-linea-totodile-2'],badge:'Set ×3',desc:'Totodile, Croconaw y Feraligatr.',inc:'3 charms'},
  {soldout:1,id:'croconaw',cat:'charms',name:'Charm Croconaw',dex:'0159',price:9.90,imgs:['of-croconaw'],desc:'Croconaw con su cresta roja.'},
 ];
