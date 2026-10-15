@@ -125,7 +125,8 @@ section{padding-block:clamp(28px,5vw,56px)}
 .badge{position:absolute;left:10px;top:10px;font-size:.72rem;font-weight:700;padding:.25rem .6rem;border-radius:99px;background:var(--coral);color:#fff}
 .badge.alt{background:#3A2828;color:#FFF3C6}
 .badge.out{background:var(--ink);color:var(--bg)}
-.card.out .ph img{filter:grayscale(.85);opacity:.55}
+.card.out .ph img.main{filter:grayscale(.85);opacity:.55}
+.card.out:hover .ph img{transform:none}
 .card.out .price{color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px}
 .add:disabled{background:var(--line);color:var(--muted);cursor:not-allowed}
 #pdAdd:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;transform:none}
@@ -508,7 +509,7 @@ function renderGrid(){
   $('#grid').innerHTML=list.length?list.map((p,ix)=>`
     <article class="card${p.soldout?' out':''}" style="--i:${Math.min(ix,12)}">
       <button class="ph" data-open="${p.id}" aria-label="Ver ${esc(p.name)}">
-        <img class="main${p.imgs[1]?' has-alt':''}" src="${src(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">${p.imgs[1]?`<img class="alt" src="${src(p.imgs[1])}" alt="" loading="lazy">`:''}${p.imgs.length>1?`<span class="more">${p.imgs.length} fotos</span>`:''}
+        <img class="main${p.imgs[1]&&!p.soldout?' has-alt':''}" src="${src(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">${p.imgs[1]&&!p.soldout?`<img class="alt" src="${src(p.imgs[1])}" alt="" loading="lazy">`:''}${p.imgs.length>1&&!p.soldout?`<span class="more">${p.imgs.length} fotos</span>`:''}
         ${p.soldout?'<span class="badge out">Agotado</span>':p.badge?`<span class="badge ${p.low?'low':p.badgeAlt?'alt':''}">${p.badge}</span>`:''}
       </button>
       <div class="body">
