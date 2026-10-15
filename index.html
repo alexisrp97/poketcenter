@@ -95,8 +95,34 @@ section{padding-block:clamp(28px,5vw,56px)}
 .cat:nth-child(2){background:var(--pink)}
 .cat:nth-child(3){background:color-mix(in srgb,var(--coral) 28%,var(--bg))}
 .cat:nth-child(4){background:var(--surface);outline:2px dashed var(--line);outline-offset:-2px}
-.cat.soon img{border-radius:14px;padding:0;object-fit:cover;rotate:-4deg;width:42%;aspect-ratio:4/3;right:-6px;bottom:-6px}
-.card.soon-card .ph img{padding:4%}
+.cat.soon{background:linear-gradient(135deg,#FFE3D6,#FFD0C8)!important;outline:none!important}
+.cat.soon img{border-radius:14px;padding:0;object-fit:cover;rotate:-6deg;width:62%;aspect-ratio:4/3;right:-10px;bottom:-12px;box-shadow:0 14px 30px -12px rgba(120,40,30,.55);border:3px solid #fff;background:none}
+.cat.soon:hover img{rotate:-2deg}
+.card.soon-card .ph{background:linear-gradient(135deg,#FFE3D6,#FFD0C8)}
+.card.soon-card .ph img{padding:0;object-fit:cover;filter:none}
+/* bloque próximamente */
+.soonbox{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;padding:clamp(20px,3vw,36px);border-radius:32px;background:linear-gradient(135deg,#FFE7DB 0%,#FFD3CA 55%,#FBE3A6 100%);box-shadow:0 30px 60px -36px rgba(140,50,40,.55);overflow:hidden}
+.soonbox::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.55),transparent 40%),radial-gradient(circle at 85% 80%,rgba(255,255,255,.35),transparent 35%);pointer-events:none}
+.soonbox .pic{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 24px 40px -22px rgba(90,30,20,.6);rotate:-1.5deg;transition:rotate .5s cubic-bezier(.2,.7,.2,1),transform .5s cubic-bezier(.2,.7,.2,1);border:5px solid #fff;cursor:zoom-in;padding:0;background:none;display:block;width:100%}
+.soonbox .pic:hover{rotate:0deg;transform:scale(1.015)}
+.soonbox .pic img{display:block;width:100%;aspect-ratio:515/388;object-fit:cover}
+.soonbox .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%);transform:translateX(-120%);animation:boxshine 4.5s ease-in-out 1s infinite}
+@keyframes boxshine{0%,60%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.soonbox .txt{position:relative;display:flex;flex-direction:column;gap:12px;color:#3A2828;min-width:0}
+.soonbox .eb{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;background:#3A2828;color:#FFF3C6;font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .8rem;border-radius:99px}
+.soonbox .eb i{width:8px;height:8px;border-radius:50%;background:#F6C64A;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.soonbox h2{font-size:clamp(1.8rem,3.6vw,2.8rem);font-weight:800;line-height:1.02}
+.soonbox h2 small{display:block;font-size:.5em;color:#B9463F;margin-top:6px;letter-spacing:.01em}
+.soonbox p{margin:0;color:#5E4441;max-width:46ch}
+.soonbox ul{list-style:none;padding:0;margin:4px 0 0;display:grid;gap:8px}
+.soonbox li{display:flex;gap:10px;align-items:center;font-weight:600;font-size:.95rem}
+.soonbox li::before{content:"";width:22px;height:22px;flex:none;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23EE7470' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 2px 6px -2px rgba(0,0,0,.2)}
+.soonbox .meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
+.soonbox .price-tbd{font:800 1.05rem var(--f-display);background:#fff;border-radius:99px;padding:.55rem 1rem;color:#3A2828}
+.soonbox .btn{background:#3A2828;color:#FFF3C6}
+@media (max-width:820px){.soonbox{grid-template-columns:1fr}.soonbox .pic{rotate:0deg}}
+@media (prefers-reduced-motion:reduce){.soonbox .pic::after,.soonbox .eb i{animation:none}}
 .badge.soon{background:#3A2828;color:#FFF3C6}
 .price.soon{font-size:.95rem;color:var(--muted);white-space:nowrap}
 .cat h3{font-size:1.45rem;font-weight:800;position:relative;z-index:1}
@@ -332,7 +358,22 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
         <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/nuevo-linea-pichu.jpg" alt=""></button>
         <button class="cat" data-go="peluches"><div><h3>Peluches exclusivos</h3><p id="nPeluches"></p></div><img src="img/peluche-pikachu-okinawa.jpg" alt=""></button>
         <button class="cat" data-go="joyeria"><div><h3>Joyería</h3><p id="nJoyeria"></p></div><img src="img/of-gengar-clip-1.jpg" alt=""></button>
-        <button class="cat soon" data-go="cajas"><div><h3>Cajas exclusivas</h3><p>Special Box Pokémon Center Hiroshima y más</p></div><span class="tag">Próximamente</span><img src="img/caja-hiroshima.jpg" alt=""></button>
+        <button class="cat soon" data-go="cajas"><div><h3>Cajas exclusivas</h3><p>Special Box Hiroshima</p></div><span class="tag">Próximamente</span><img src="img/caja-hiroshima.jpg" alt=""></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="proximamente" style="padding-block:clamp(8px,2vw,20px) clamp(20px,3vw,32px)">
+    <div class="wrap">
+      <div class="soonbox">
+        <button class="pic" data-open="box-hiroshima" aria-label="Ver Special Box Pokémon Center Hiroshima"><img src="img/caja-hiroshima.jpg" alt="Special Box Pokémon Center Hiroshima con carta de Pikachu, fundas, deck box y caja"></button>
+        <div class="txt">
+          <span class="eb"><i></i>Próximamente</span>
+          <h2>Special Box Pokémon Center Hiroshima<small>Edición de la reapertura de la tienda</small></h2>
+          <p>Una caja del Pokémon TCG que solo se vende en el Pokémon Center Hiroshima, con Pikachu y el Gyarados rojo como protagonistas.</p>
+          <ul><li>Carta promocional de Pikachu de Hiroshima</li><li>Fundas para cartas con el diseño de la tienda</li><li>Deck box y caja de colección</li></ul>
+          <div class="meta"><span class="price-tbd">Precio muy pronto</span><button class="btn" data-open="box-hiroshima">Ver detalles</button></div>
+        </div>
       </div>
     </div>
   </section>
