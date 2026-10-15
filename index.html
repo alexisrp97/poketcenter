@@ -98,31 +98,28 @@ section{padding-block:clamp(28px,5vw,56px)}
 .cat.soon{background:linear-gradient(135deg,#FFE3D6,#FFD0C8)!important;outline:none!important}
 .cat.soon img{border-radius:14px;padding:0;object-fit:cover;rotate:-6deg;width:62%;aspect-ratio:4/3;right:-10px;bottom:-12px;box-shadow:0 14px 30px -12px rgba(120,40,30,.55);border:3px solid #fff;background:none}
 .cat.soon:hover img{rotate:-2deg}
-.card.soon-card .ph{background:linear-gradient(135deg,#FFE3D6,#FFD0C8)}
-.card.soon-card .ph img{padding:0;object-fit:cover;filter:none}
-/* bloque próximamente */
-.soonbox{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;padding:clamp(20px,3vw,36px);border-radius:32px;background:linear-gradient(135deg,#FFE7DB 0%,#FFD3CA 55%,#FBE3A6 100%);box-shadow:0 30px 60px -36px rgba(140,50,40,.55);overflow:hidden}
-.soonbox::before{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.55),transparent 40%),radial-gradient(circle at 85% 80%,rgba(255,255,255,.35),transparent 35%);pointer-events:none}
-.soonbox .pic{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 24px 40px -22px rgba(90,30,20,.6);rotate:-1.5deg;transition:rotate .5s cubic-bezier(.2,.7,.2,1),transform .5s cubic-bezier(.2,.7,.2,1);border:5px solid #fff;cursor:zoom-in;padding:0;background:none;display:block;width:100%}
-.soonbox .pic:hover{rotate:0deg;transform:scale(1.015)}
-.soonbox .pic img{display:block;width:100%;aspect-ratio:515/388;object-fit:cover}
-.soonbox .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%);transform:translateX(-120%);animation:boxshine 4.5s ease-in-out 1s infinite}
-@keyframes boxshine{0%,60%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
-.soonbox .txt{position:relative;display:flex;flex-direction:column;gap:12px;color:#3A2828;min-width:0}
-.soonbox .eb{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;background:#3A2828;color:#FFF3C6;font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .8rem;border-radius:99px}
-.soonbox .eb i{width:8px;height:8px;border-radius:50%;background:#F6C64A;animation:blink 1.6s ease-in-out infinite}
+.card.soon-card .ph{background:#fff}
+.card.soon-card .ph img{padding:8% 6%;object-fit:contain;filter:none}
+/* franja próximamente */
+.soonstrip{display:flex;align-items:center;gap:clamp(12px,2vw,24px);padding:12px 14px 12px 20px;border-radius:22px;background:linear-gradient(90deg,#FFE7DB,#FFD9D0 55%,#FBE8B4);box-shadow:0 18px 40px -30px rgba(140,50,40,.6)}
+.soonstrip .lead{flex:none;display:flex;flex-direction:column;gap:4px;min-width:0}
+.soonstrip .eb{display:inline-flex;align-self:flex-start;align-items:center;gap:7px;background:#3A2828;color:#FFF3C6;font-weight:800;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .65rem;border-radius:99px}
+.soonstrip .eb i{width:7px;height:7px;border-radius:50%;background:#F6C64A;animation:blink 1.6s ease-in-out infinite}
 @keyframes blink{50%{opacity:.25}}
-.soonbox h2{font-size:clamp(1.8rem,3.6vw,2.8rem);font-weight:800;line-height:1.02}
-.soonbox h2 small{display:block;font-size:.5em;color:#B9463F;margin-top:6px;letter-spacing:.01em}
-.soonbox p{margin:0;color:#5E4441;max-width:46ch}
-.soonbox ul{list-style:none;padding:0;margin:4px 0 0;display:grid;gap:8px}
-.soonbox li{display:flex;gap:10px;align-items:center;font-weight:600;font-size:.95rem}
-.soonbox li::before{content:"";width:22px;height:22px;flex:none;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%23EE7470' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 2px 6px -2px rgba(0,0,0,.2)}
-.soonbox .meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
-.soonbox .price-tbd{font:800 1.05rem var(--f-display);background:#fff;border-radius:99px;padding:.55rem 1rem;color:#3A2828}
-.soonbox .btn{background:#3A2828;color:#FFF3C6}
-@media (max-width:820px){.soonbox{grid-template-columns:1fr}.soonbox .pic{rotate:0deg}}
-@media (prefers-reduced-motion:reduce){.soonbox .pic::after,.soonbox .eb i{animation:none}}
+.soonstrip .lead b{font:800 1.15rem/1.1 var(--f-display);color:#3A2828}
+.soonstrip .lead small{color:#7D5550;font-size:.8rem}
+.soonstrip .boxes{flex:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;min-width:0}
+.sbox{all:unset;cursor:pointer;display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:6px 12px 6px 6px;min-width:0;transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}
+.sbox:hover{transform:translateY(-2px);box-shadow:0 10px 22px -14px rgba(90,30,20,.55)}
+.sbox:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.sbox img{width:92px;height:56px;object-fit:contain;flex:none;border-radius:8px}
+.sbox span{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.sbox span b{font-weight:800;font-size:.95rem;color:#3A2828}
+.sbox span em{font-style:normal;font-size:.75rem;color:#B9463F;font-weight:700}
+.sbox::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.7) 50%,transparent 65%);transform:translateX(-120%);pointer-events:none}
+.sbox:hover::after{animation:shine 1s ease both}
+@media (max-width:900px){.soonstrip{flex-direction:column;align-items:stretch;padding:14px}.soonstrip .lead{flex-direction:row;align-items:center;gap:10px;flex-wrap:wrap}.soonstrip .boxes{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.soonstrip .eb i{animation:none}}
 .badge.soon{background:#3A2828;color:#FFF3C6}
 .price.soon{font-size:.95rem;color:var(--muted);white-space:nowrap}
 .cat h3{font-size:1.45rem;font-weight:800;position:relative;z-index:1}
@@ -358,21 +355,19 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
         <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/nuevo-linea-pichu.jpg" alt=""></button>
         <button class="cat" data-go="peluches"><div><h3>Peluches exclusivos</h3><p id="nPeluches"></p></div><img src="img/peluche-pikachu-okinawa.jpg" alt=""></button>
         <button class="cat" data-go="joyeria"><div><h3>Joyería</h3><p id="nJoyeria"></p></div><img src="img/of-gengar-clip-1.jpg" alt=""></button>
-        <button class="cat soon" data-go="cajas"><div><h3>Cajas exclusivas</h3><p>Special Box Hiroshima</p></div><span class="tag">Próximamente</span><img src="img/caja-hiroshima.jpg" alt=""></button>
+        <button class="cat soon" data-go="cajas"><div><h3>Cajas exclusivas</h3><p>Fukuoka · Hiroshima · Tohoku</p></div><span class="tag">Próximamente</span><img src="img/caja-hiroshima-box.jpg" alt=""></button>
       </div>
     </div>
   </section>
 
-  <section id="proximamente" style="padding-block:clamp(8px,2vw,20px) clamp(20px,3vw,32px)">
+  <section id="proximamente" style="padding-block:clamp(4px,1.5vw,12px) clamp(12px,2vw,20px)">
     <div class="wrap">
-      <div class="soonbox">
-        <button class="pic" data-open="box-hiroshima" aria-label="Ver Special Box Pokémon Center Hiroshima"><img src="img/caja-hiroshima.jpg" alt="Special Box Pokémon Center Hiroshima con carta de Pikachu, fundas, deck box y caja"></button>
-        <div class="txt">
-          <span class="eb"><i></i>Próximamente</span>
-          <h2>Special Box Pokémon Center Hiroshima<small>Edición de la reapertura de la tienda</small></h2>
-          <p>Una caja del Pokémon TCG que solo se vende en el Pokémon Center Hiroshima, con Pikachu y el Gyarados rojo como protagonistas.</p>
-          <ul><li>Carta promocional de Pikachu de Hiroshima</li><li>Fundas para cartas con el diseño de la tienda</li><li>Deck box y caja de colección</li></ul>
-          <div class="meta"><span class="price-tbd">Precio muy pronto</span><button class="btn" data-open="box-hiroshima">Ver detalles</button></div>
+      <div class="soonstrip">
+        <div class="lead"><span class="eb"><i></i>Próximamente</span><b>Special Box Pokémon Center</b><small>Ediciones exclusivas de tienda</small></div>
+        <div class="boxes">
+          <button class="sbox" data-open="box-fukuoka"><img src="img/caja-fukuoka.jpg" alt=""><span><b>Fukuoka</b><em>Precio pronto</em></span></button>
+          <button class="sbox" data-open="box-hiroshima"><img src="img/caja-hiroshima-box.jpg" alt=""><span><b>Hiroshima</b><em>Precio pronto</em></span></button>
+          <button class="sbox" data-open="box-tohoku"><img src="img/caja-tohoku.jpg" alt=""><span><b>Tohoku</b><em>Precio pronto</em></span></button>
         </div>
       </div>
     </div>
@@ -475,7 +470,11 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 <script>
 const CATS={charms:'Charms',peluches:'Peluches',joyeria:'Joyería',cajas:'Cajas'};
 const PRODUCTS=[
- {soon:1,id:'box-hiroshima',cat:'cajas',name:'Special Box Pokémon Center Hiroshima',dex:'',price:0,imgs:['caja-hiroshima'],
+ {soon:1,id:'box-fukuoka',cat:'cajas',name:'Special Box Pokémon Center Fukuoka',dex:'',price:0,imgs:['caja-fukuoka'],
+  desc:'Caja especial del Pokémon TCG exclusiva del Pokémon Center Fukuoka, con Pikachu y Latias y Latios recorriendo la ciudad en su ilustración.',inc:'Caja especial del Pokémon TCG',size:'Caja de colección',material:'Cartas, fundas y caja',origin:'Pokémon Center Fukuoka'},
+ {soon:1,id:'box-tohoku',cat:'cajas',name:'Special Box Pokémon Center Tohoku',dex:'',price:0,imgs:['caja-tohoku'],
+  desc:'Caja especial del Pokémon TCG exclusiva del Pokémon Center Tohoku, con un desfile de Pikachus en un festival tradicional de verano.',inc:'Caja especial del Pokémon TCG',size:'Caja de colección',material:'Cartas, fundas y caja',origin:'Pokémon Center Tohoku'},
+ {soon:1,id:'box-hiroshima',cat:'cajas',name:'Special Box Pokémon Center Hiroshima',dex:'',price:0,imgs:['caja-hiroshima-box','caja-hiroshima'],
   desc:'Caja especial de cartas del Pokémon TCG, exclusiva de la reapertura del Pokémon Center Hiroshima. Incluye la carta promocional de Pikachu de Hiroshima, fundas y deck box con Pikachu y Gyarados variocolor, y caja con diseño de la tienda.',inc:'Caja especial del Pokémon TCG',size:'Caja de colección',material:'Cartas, fundas y caja',origin:'Pokémon Center Hiroshima'},
  {id:'houndour-houndoom',cat:'charms',name:'Dúo Houndour y Houndoom',dex:'0228',price:19.90,imgs:['of2-houndour-houndoom','nuevo-houndour-houndoom','of2-houndour-houndoom-regla'],badge:'Nuevo · Set ×2',nuevo:1,
   desc:'Houndour y su evolución Houndoom, los perros de fuego y siniestro de Johto.',inc:'2 charms en tarjeta original'},
