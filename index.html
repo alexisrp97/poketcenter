@@ -173,7 +173,8 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 .dots i{width:7px;height:7px;border-radius:50%;background:#3A2828;opacity:.25;transition:opacity .25s,width .25s}
 .dots i.on{opacity:.8;width:18px;border-radius:99px}
 .pd .gal{min-width:0}
-.thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.thumbs{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:thin}
+.thumbs button{flex:none;scroll-snap-align:start}
 .thumbs button{width:62px;height:62px;border-radius:12px;border:2px solid #eee;background:#fff;padding:4px;cursor:pointer;transition:border-color .2s,transform .2s}
 .thumbs button:hover{transform:translateY(-2px)}
 .thumbs button[aria-current="true"]{border-color:var(--coral)}
@@ -416,8 +417,8 @@ const PRODUCTS=[
   desc:'Sentret y Furret, la pareja más simpática de Johto.',inc:'2 charms en tarjeta original'},
  {id:'pikachu-tokyo-station',cat:'peluches',name:'Pikachu jefe de estación · Tokyo Station',dex:'0025',price:74.90,imgs:['nuevo-pikachu-tokyo-station'],badge:'Nuevo · Exclusivo',nuevo:1,
   desc:'Pikachu con uniforme azul de jefe de estación, gorra con Poké Ball y «TOKYO Sta.» bordado en la chaqueta. Solo se vende en la Pokémon Store de la estación de Tokio.',inc:'1 peluche',size:'Pequeño, tipo mascota',material:'Felpa y poliéster',origin:'Pokémon Store Tokyo Station'},
- {id:'pikachu-30-aniversario',cat:'peluches',name:'Pikachu 30 aniversario',dex:'0025',price:74.90,imgs:['of2-pikachu-30-aniversario','nuevo-pikachu-30-aniversario'],badge:'Nuevo · Edición 30 aniversario',nuevo:1,
-  desc:'Pikachu de felpa brillante en tonos dorados, con lazo y una Poké Ball bordada con «30th» para celebrar los 30 años de Pokémon.',inc:'1 peluche',size:'Pequeño, tipo mascota',material:'Felpa y poliéster',origin:'Pokémon Center Japón'},
+ {id:'pikachu-30-aniversario',cat:'peluches',name:'Pikachu 30 aniversario',dex:'0025',price:74.90,imgs:['of2-pikachu-30-aniversario','of2-pikachu-30-02','of2-pikachu-30-03','of2-pikachu-30-04','of2-pikachu-30-01','of2-pikachu-30-05','of2-pikachu-30-06','of2-pikachu-30-07','of2-pikachu-30-08','of2-pikachu-30-09','of2-pikachu-30-10','of2-pikachu-30-11','of2-pikachu-30-12','of2-pikachu-30-13','nuevo-pikachu-30-aniversario'],badge:'Nuevo · Edición 30 aniversario',nuevo:1,
+  desc:'Pikachu de terciopelo con purpurina dorada, ojos bordados con destello, lazo de cumpleaños en el pecho y una Poké Ball con «30th» bordado. Lleva etiquetas «Since 1996» y de Pikachu en la espalda.',inc:'1 peluche',size:'Unos 20 cm',material:'Felpa y poliéster',origin:'Pokémon Center Japón'},
  {id:'linea-pichu',cat:'charms',name:'Pichu, Pikachu y Raichu',dex:'0172',price:24.90,imgs:['of2-linea-pichu','nuevo-linea-pichu','of2-linea-pichu-regla'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'La línea evolutiva de Pikachu al completo: Pichu, Pikachu guiñando un ojo y Raichu. En su tarjeta original de Pokémon Center.',inc:'3 charms en tarjeta original'},
  {id:'linea-chikorita',cat:'charms',name:'Línea evolutiva de Chikorita',dex:'0152',price:24.90,imgs:['of2-linea-chikorita','nuevo-linea-chikorita','of2-linea-chikorita-regla'],badge:'Nuevo · Set ×3',nuevo:1,
@@ -544,8 +545,8 @@ function showImg(i){
   const swap=()=>{img.src=next; img.alt=cur.name; const done=()=>img.classList.remove('fading'); if(img.complete) requestAnimationFrame(done); else img.onload=done;};
   if(firstShow||matchMedia('(prefers-reduced-motion: reduce)').matches){firstShow=false; img.classList.remove('fading'); img.src=next; img.alt=cur.name;}
   else {img.classList.add('fading'); setTimeout(swap,180);}
-  document.querySelectorAll('#pdThumbs button').forEach((b,j)=>b.setAttribute('aria-current',i===j));
-  $('#pdDots').innerHTML=n>1?cur.imgs.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join(''):'';
+  document.querySelectorAll('#pdThumbs button').forEach((b,j)=>{b.setAttribute('aria-current',i===j);if(i===j)b.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'})});
+  $('#pdDots').innerHTML=n>1&&n<=6?cur.imgs.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join(''):'';
   $('#pdPrev').hidden=$('#pdNext').hidden=n<2;
 }
 $('#pdPrev').onclick=()=>showImg(curImg-1);
