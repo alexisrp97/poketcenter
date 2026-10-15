@@ -113,8 +113,15 @@ section{padding-block:clamp(28px,5vw,56px)}
 .card{background:var(--surface);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--line);transition:transform .2s ease,box-shadow .2s ease}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
 .card .ph{position:relative;background:var(--tile);aspect-ratio:1;border:0;padding:0;cursor:zoom-in;display:block;width:100%}
-.card .ph img{width:100%;height:100%;object-fit:contain;padding:10%;transition:transform .3s ease}
-.card:hover .ph img{transform:scale(1.05)}
+.card .ph{overflow:hidden}
+.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10%;transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .5s ease}
+.card .ph img.alt{opacity:0}
+.card:hover .ph img{transform:scale(1.04)}
+.card:hover .ph img.main.has-alt{opacity:0}
+.card:hover .ph img.alt{opacity:1}
+.card{animation:cardIn .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*45ms)}
+@keyframes cardIn{from{opacity:.001;transform:translateY(14px)}to{opacity:1;transform:none}}
+.ph .more{position:absolute;right:10px;bottom:10px;background:color-mix(in srgb,var(--surface) 88%,transparent);color:var(--ink);font-size:.72rem;font-weight:700;padding:.2rem .55rem;border-radius:99px;backdrop-filter:blur(4px);z-index:1}
 .badge{position:absolute;left:10px;top:10px;font-size:.72rem;font-weight:700;padding:.25rem .6rem;border-radius:99px;background:var(--coral);color:#fff}
 .badge.alt{background:#3A2828;color:#FFF3C6}
 .badge.out{background:var(--ink);color:var(--bg)}
@@ -156,11 +163,19 @@ dialog{border:0;padding:0;border-radius:28px;background:var(--surface);color:var
 dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
 .pd{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
 .pd .gal{background:var(--tile);padding:20px;display:flex;flex-direction:column;gap:12px}
-.pd .main-img{aspect-ratio:1;width:100%;max-width:100%;overflow:hidden;min-height:0}
-.pd .main-img img{display:block;width:100%;height:100%;object-fit:contain}
+.pd .main-img{position:relative;aspect-ratio:1;width:100%;max-width:100%;overflow:hidden;min-height:0;touch-action:pan-y}
+.pd .main-img img{display:block;width:100%;height:100%;object-fit:contain;transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1)}
+.pd .main-img img.fading{opacity:0;transform:scale(.985)}
+.navbtn{position:absolute;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:50%;border:0;background:color-mix(in srgb,#fff 85%,transparent);color:#3A2828;box-shadow:0 6px 18px -8px rgba(0,0,0,.35);font-size:1.3rem;cursor:pointer;opacity:.85;transition:opacity .2s,transform .2s;z-index:2}
+.navbtn:hover{opacity:1;transform:scale(1.06)}
+.navbtn.prev{left:10px}.navbtn.next{right:10px}
+.dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;z-index:2}
+.dots i{width:7px;height:7px;border-radius:50%;background:#3A2828;opacity:.25;transition:opacity .25s,width .25s}
+.dots i.on{opacity:.8;width:18px;border-radius:99px}
 .pd .gal{min-width:0}
 .thumbs{display:flex;gap:8px;flex-wrap:wrap}
-.thumbs button{width:62px;height:62px;border-radius:12px;border:2px solid #eee;background:#fff;padding:4px;cursor:pointer}
+.thumbs button{width:62px;height:62px;border-radius:12px;border:2px solid #eee;background:#fff;padding:4px;cursor:pointer;transition:border-color .2s,transform .2s}
+.thumbs button:hover{transform:translateY(-2px)}
 .thumbs button[aria-current="true"]{border-color:var(--coral)}
 .thumbs img{width:100%;height:100%;object-fit:contain}
 .pd .info{padding:28px;display:flex;flex-direction:column;gap:12px;overflow:auto;min-width:0}
@@ -359,7 +374,7 @@ dialog::backdrop{background:rgba(40,20,20,.5);backdrop-filter:blur(3px)}
   <button class="x" id="pdClose" aria-label="Cerrar">✕</button>
   <div class="pd">
     <div class="gal">
-      <div class="main-img"><img id="pdImg" alt=""></div>
+      <div class="main-img" id="pdMain"><img id="pdImg" alt=""><button class="navbtn prev" id="pdPrev" aria-label="Foto anterior">‹</button><button class="navbtn next" id="pdNext" aria-label="Foto siguiente">›</button><div class="dots" id="pdDots"></div></div>
       <div class="thumbs" id="pdThumbs"></div>
     </div>
     <div class="info">
@@ -401,23 +416,23 @@ const PRODUCTS=[
   desc:'Sentret y Furret, la pareja más simpática de Johto.',inc:'2 charms en tarjeta original'},
  {id:'pikachu-tokyo-station',cat:'peluches',name:'Pikachu jefe de estación · Tokyo Station',dex:'0025',price:74.90,imgs:['nuevo-pikachu-tokyo-station'],badge:'Nuevo · Exclusivo',nuevo:1,
   desc:'Pikachu con uniforme azul de jefe de estación, gorra con Poké Ball y «TOKYO Sta.» bordado en la chaqueta. Solo se vende en la Pokémon Store de la estación de Tokio.',inc:'1 peluche',size:'Pequeño, tipo mascota',material:'Felpa y poliéster',origin:'Pokémon Store Tokyo Station'},
- {id:'pikachu-30-aniversario',cat:'peluches',name:'Pikachu 30 aniversario',dex:'0025',price:74.90,imgs:['nuevo-pikachu-30-aniversario'],badge:'Nuevo · Edición 30 aniversario',nuevo:1,
+ {id:'pikachu-30-aniversario',cat:'peluches',name:'Pikachu 30 aniversario',dex:'0025',price:74.90,imgs:['of2-pikachu-30-aniversario','nuevo-pikachu-30-aniversario'],badge:'Nuevo · Edición 30 aniversario',nuevo:1,
   desc:'Pikachu de felpa brillante en tonos dorados, con lazo y una Poké Ball bordada con «30th» para celebrar los 30 años de Pokémon.',inc:'1 peluche',size:'Pequeño, tipo mascota',material:'Felpa y poliéster',origin:'Pokémon Center Japón'},
- {id:'linea-pichu',cat:'charms',name:'Pichu, Pikachu y Raichu',dex:'0172',price:24.90,imgs:['nuevo-linea-pichu'],badge:'Nuevo · Set ×3',nuevo:1,
+ {id:'linea-pichu',cat:'charms',name:'Pichu, Pikachu y Raichu',dex:'0172',price:24.90,imgs:['of2-linea-pichu','nuevo-linea-pichu','of2-linea-pichu-regla'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'La línea evolutiva de Pikachu al completo: Pichu, Pikachu guiñando un ojo y Raichu. En su tarjeta original de Pokémon Center.',inc:'3 charms en tarjeta original'},
- {id:'linea-chikorita',cat:'charms',name:'Línea evolutiva de Chikorita',dex:'0152',price:24.90,imgs:['nuevo-linea-chikorita'],badge:'Nuevo · Set ×3',nuevo:1,
+ {id:'linea-chikorita',cat:'charms',name:'Línea evolutiva de Chikorita',dex:'0152',price:24.90,imgs:['of2-linea-chikorita','nuevo-linea-chikorita','of2-linea-chikorita-regla'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'Chikorita, Bayleef y Meganium, el inicial de planta de Johto.',inc:'3 charms en tarjeta original'},
- {id:'scyther-scizor',cat:'charms',name:'Dúo Scyther y Scizor',dex:'0123',price:19.90,imgs:['nuevo-scyther-scizor'],badge:'Nuevo · Set ×2',nuevo:1,
+ {id:'scyther-scizor',cat:'charms',name:'Dúo Scyther y Scizor',dex:'0123',price:19.90,imgs:['of2-scyther-scizor','nuevo-scyther-scizor','of2-scyther-scizor-regla'],badge:'Nuevo · Set ×2',nuevo:1,
   desc:'Scyther y su evolución Scizor, en esmalte verde y rojo.',inc:'2 charms en tarjeta original'},
- {id:'walking-wake',cat:'charms',name:'Charm Walking Wake',dex:'1009',price:9.90,imgs:['nuevo-walking-wake'],badge:'Nuevo',nuevo:1,
+ {id:'walking-wake',cat:'charms',name:'Charm Walking Wake',dex:'1009',price:9.90,imgs:['of2-walking-wake','nuevo-walking-wake','of2-walking-wake-regla'],badge:'Nuevo',nuevo:1,
   desc:'Walking Wake, el Pokémon paradoja del pasado emparentado con Suicune.',inc:'1 charm en tarjeta original'},
- {id:'linea-tepig',cat:'charms',name:'Línea evolutiva de Tepig',dex:'0498',price:24.90,imgs:['nuevo-linea-tepig'],badge:'Nuevo · Set ×3',nuevo:1,
+ {id:'linea-tepig',cat:'charms',name:'Línea evolutiva de Tepig',dex:'0498',price:24.90,imgs:['of2-linea-tepig','nuevo-linea-tepig','of2-linea-tepig-regla'],badge:'Nuevo · Set ×3',nuevo:1,
   desc:'Tepig, Pignite y Emboar, el inicial de fuego de Teselia.',inc:'3 charms en tarjeta original'},
- {id:'snubbull-granbull',cat:'charms',name:'Dúo Snubbull y Granbull',dex:'0209',price:19.90,imgs:['nuevo-snubbull-granbull'],badge:'Nuevo · Set ×2',nuevo:1,
+ {id:'snubbull-granbull',cat:'charms',name:'Dúo Snubbull y Granbull',dex:'0209',price:19.90,imgs:['of2-snubbull-granbull','nuevo-snubbull-granbull','of2-snubbull-granbull-regla'],badge:'Nuevo · Set ×2',nuevo:1,
   desc:'Snubbull y Granbull, en esmalte rosa.',inc:'2 charms en tarjeta original'},
  {id:'pecharunt',cat:'charms',name:'Charm Pecharunt',dex:'1025',price:9.90,imgs:['nuevo-pecharunt'],badge:'Nuevo',nuevo:1,
   desc:'Pecharunt dentro de su caparazón con forma de melocotón, en rosa y morado.',inc:'1 charm en tarjeta original'},
- {id:'okidogi',cat:'charms',name:'Charm Okidogi',dex:'1014',price:9.90,imgs:['nuevo-okidogi'],badge:'Nuevo',nuevo:1,
+ {id:'okidogi',cat:'charms',name:'Charm Okidogi',dex:'1014',price:9.90,imgs:['of2-okidogi','nuevo-okidogi','of2-okidogi-regla'],badge:'Nuevo',nuevo:1,
   desc:'Okidogi, uno de los tres compinches de Kitakami, en negro, verde y rosa.',inc:'1 charm en tarjeta original'},
  {soldout:1,id:'set-eevee',cat:'charms',name:'Set Eevee y sus evoluciones',dex:'0133',price:49.90,imgs:['of-set-eevee-1'],badge:'Set ×8',feat:1,
   desc:'Los ocho charms de Eevee, Vaporeon, Jolteon, Flareon, Espeon, Umbreon, Leafeon y Glaceon, cada uno con su mosquetón plateado.',inc:'8 charms',size:'3–4 cm cada uno'},
@@ -432,7 +447,7 @@ const PRODUCTS=[
   desc:'Tyrogue con sus tres evoluciones: Hitmonlee, Hitmonchan y Hitmontop.',inc:'4 charms'},
  {soldout:1,id:'pikachu-cts',cat:'peluches',name:'Pikachu piloto · Aeropuerto de New Chitose',dex:'0025',price:74.90,imgs:['peluche-pikachu-cts'],badge:'Exclusivo aeropuerto',badgeAlt:1,
   desc:'Versión de Pikachu piloto de la Pokémon Store del aeropuerto de New Chitose (CTS), en Hokkaido. Con etiqueta original.',inc:'Peluche con etiqueta',size:'Unos 20 cm',origin:'Pokémon Store New Chitose (CTS)'},
- {nuevo:1,id:'linea-cyndaquil',cat:'charms',name:'Línea evolutiva de Cyndaquil',dex:'0155',price:24.90,imgs:['stock-linea-cyndaquil'],badge:'De nuevo en stock',desc:'Cyndaquil, Quilava y Typhlosion.',inc:'3 charms'},
+ {nuevo:1,id:'linea-cyndaquil',cat:'charms',name:'Línea evolutiva de Cyndaquil',dex:'0155',price:24.90,imgs:['of-linea-cyndaquil-1','stock-linea-cyndaquil'],badge:'De nuevo en stock',desc:'Cyndaquil, Quilava y Typhlosion.',inc:'3 charms'},
  {soldout:1,id:'set-necrozma',cat:'charms',name:'Set Necrozma',dex:'0800',price:29.90,imgs:['of-necrozma-1','of-necrozma-2'],badge:'Últimas unidades',low:1,
   desc:'Necrozma en sus cuatro formas: normal, Melena Crepuscular, Alas del Alba y Ultra-Necrozma.',inc:'4 charms'},
  {soldout:1,id:'set-cosmog',cat:'charms',name:'Set Cosmog y legendarios de Alola',dex:'0789',price:29.90,imgs:['of-set-cosmog-1','of-set-cosmog-2'],badge:'Set ×4',desc:'Cosmog, Cosmoem, Solgaleo y Lunala.',inc:'4 charms'},
@@ -449,7 +464,7 @@ const PRODUCTS=[
  {soldout:1,id:'ho-oh',cat:'charms',name:'Charm Ho-Oh',dex:'0250',price:9.90,imgs:['of-ho-oh-1','of-ho-oh-2'],desc:'Ho-Oh en vuelo, esmalte multicolor.'},
  {soldout:1,id:'suicune',cat:'charms',name:'Charm Suicune',dex:'0245',price:9.90,imgs:['of-suicune-1','of-suicune-2'],desc:'Suicune, una de las bestias legendarias de Johto.'},
  {soldout:1,id:'raikou',cat:'charms',name:'Charm Raikou',dex:'0243',price:9.90,imgs:['of-raikou-1','of-raikou-2'],badge:'Últimas unidades',low:1,desc:'Raikou, una de las bestias legendarias de Johto.'},
- {nuevo:1,id:'linea-larvitar',cat:'charms',name:'Línea evolutiva de Larvitar',dex:'0246',price:24.90,imgs:['stock-linea-larvitar'],badge:'De nuevo en stock',desc:'Larvitar, Pupitar y Tyranitar.',inc:'3 charms'},
+ {nuevo:1,id:'linea-larvitar',cat:'charms',name:'Línea evolutiva de Larvitar',dex:'0246',price:24.90,imgs:['of-linea-larvitar-1','stock-linea-larvitar','of-linea-larvitar-2'],badge:'De nuevo en stock',desc:'Larvitar, Pupitar y Tyranitar.',inc:'3 charms'},
  {soldout:1,id:'linea-totodile',cat:'charms',name:'Línea evolutiva de Totodile',dex:'0158',price:24.90,imgs:['of-linea-totodile-1','of-linea-totodile-2'],badge:'Set ×3',desc:'Totodile, Croconaw y Feraligatr.',inc:'3 charms'},
  {soldout:1,id:'croconaw',cat:'charms',name:'Charm Croconaw',dex:'0159',price:9.90,imgs:['of-croconaw'],desc:'Croconaw con su cresta roja.'},
 ];
@@ -486,13 +501,13 @@ function renderGrid(){
   if(sort==='asc') list.sort((a,b)=>a.price-b.price);
   else if(sort==='desc') list.sort((a,b)=>b.price-a.price);
   else if(sort==='dex') list.sort((a,b)=>(a.dex||'9999').localeCompare(b.dex||'9999'));
-  else list.sort((a,b)=>(b.nuevo||0)-(a.nuevo||0)||(b.feat||0)-(a.feat||0)||a.order-b.order);
+  else { const pro=x=>/^of/.test(x.imgs[0])?1:0; list.sort((a,b)=>(b.nuevo||0)-(a.nuevo||0)||pro(b)-pro(a)||(b.feat||0)-(a.feat||0)||a.order-b.order); }
   list.sort((a,b)=>(a.soldout?1:0)-(b.soldout?1:0));
   $('#shopTitle').textContent=filter==='all'?'Toda la tienda':CATS[filter];
-  $('#grid').innerHTML=list.length?list.map(p=>`
-    <article class="card${p.soldout?' out':''}">
+  $('#grid').innerHTML=list.length?list.map((p,ix)=>`
+    <article class="card${p.soldout?' out':''}" style="--i:${Math.min(ix,12)}">
       <button class="ph" data-open="${p.id}" aria-label="Ver ${esc(p.name)}">
-        <img src="${src(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">
+        <img class="main${p.imgs[1]?' has-alt':''}" src="${src(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">${p.imgs[1]?`<img class="alt" src="${src(p.imgs[1])}" alt="" loading="lazy">`:''}${p.imgs.length>1?`<span class="more">${p.imgs.length} fotos</span>`:''}
         ${p.soldout?'<span class="badge out">Agotado</span>':p.badge?`<span class="badge ${p.low?'low':p.badgeAlt?'alt':''}">${p.badge}</span>`:''}
       </button>
       <div class="body">
@@ -517,15 +532,28 @@ function openProduct(id){
   $('#pdDesc').textContent=cur.desc;
   const specs=[['Incluye',cur.inc||'1 charm con mosquetón'],['Tamaño',cur.size||'3–5 cm aprox. (ver foto con regla)'],['Material',cur.material||(cur.cat==='peluches'?'Felpa y poliéster':'Metal esmaltado')],['Origen',cur.origin||'Pokémon Center Japón']];
   $('#pdSpecs').innerHTML=specs.map(([a,b])=>`<dt>${a}</dt><dd>${esc(b)}</dd>`).join('');
-  showImg(0);
+  firstShow=true; showImg(0);
   $('#pdAdd').disabled=!!cur.soldout; $('#pdAdd').textContent=cur.soldout?'Agotado':'Añadir al carrito'; document.querySelector('.buy .qty').hidden=!!cur.soldout;
   $('#pdThumbs').innerHTML=cur.imgs.length>1?cur.imgs.map((m,i)=>`<button data-i="${i}" aria-label="Foto ${i+1}" aria-current="${i===0}"><img src="${src(m)}" alt=""></button>`).join(''):'';
   $('#pd').showModal();
 }
+let curImg=0, firstShow=true;
 function showImg(i){
-  $('#pdImg').src=src(cur.imgs[i]); $('#pdImg').alt=cur.name;
+  const n=cur.imgs.length; i=((i%n)+n)%n; curImg=i;
+  const img=$('#pdImg'); const next=src(cur.imgs[i]);
+  const swap=()=>{img.src=next; img.alt=cur.name; const done=()=>img.classList.remove('fading'); if(img.complete) requestAnimationFrame(done); else img.onload=done;};
+  if(firstShow||matchMedia('(prefers-reduced-motion: reduce)').matches){firstShow=false; img.classList.remove('fading'); img.src=next; img.alt=cur.name;}
+  else {img.classList.add('fading'); setTimeout(swap,180);}
   document.querySelectorAll('#pdThumbs button').forEach((b,j)=>b.setAttribute('aria-current',i===j));
+  $('#pdDots').innerHTML=n>1?cur.imgs.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join(''):'';
+  $('#pdPrev').hidden=$('#pdNext').hidden=n<2;
 }
+$('#pdPrev').onclick=()=>showImg(curImg-1);
+$('#pdNext').onclick=()=>showImg(curImg+1);
+(()=>{let x0=null;const m=$('#pdMain');
+ m.addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+ m.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)showImg(curImg+(dx<0?1:-1));x0=null});
+ document.addEventListener('keydown',e=>{if(!$('#pd').open)return;if(e.key==='ArrowRight')showImg(curImg+1);if(e.key==='ArrowLeft')showImg(curImg-1)});})();
 $('#pdThumbs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showImg(+b.dataset.i)});
 $('#qMinus').onclick=()=>{qn=Math.max(1,qn-1);$('#qVal').textContent=qn};
 $('#qPlus').onclick=()=>{qn=Math.min(9,qn+1);$('#qVal').textContent=qn};
