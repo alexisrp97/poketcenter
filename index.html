@@ -340,6 +340,10 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 .legal .lb ul{padding-left:1.2rem}
 .legal mark.fill{background:#FFE58A;color:#3A2828;border-radius:4px;padding:0 .25em;font-weight:700}
 @media (max-width:820px){.contact .wrap{grid-template-columns:1fr}.cards-c{grid-template-columns:1fr}}
+.stk{font-size:.78rem;font-weight:700;color:#8A4B10;display:inline-flex;align-items:center;gap:6px;margin-top:4px}
+.stk::before{content:"";width:7px;height:7px;border-radius:50%;background:#E8A23A;box-shadow:0 0 0 3px #FFF3C6}
+.pd .stk{font-size:.9rem;margin-top:-4px}
+.qty button:disabled{opacity:.3;cursor:not-allowed}
 </style>
 </head>
 <body>
@@ -519,6 +523,7 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
       <div class="mono" id="pdDex"></div>
       <h2 id="pdName"></h2>
       <div class="price" id="pdPrice"></div>
+      <div class="stk" id="pdStock" hidden></div>
       <p class="desc" id="pdDesc"></p>
       <dl class="specs" id="pdSpecs"></dl>
       <div class="buy">
@@ -633,6 +638,29 @@ const PRODUCTS=[
 ];
 PRODUCTS.forEach((p,i)=>p.order=i);
 const byId=Object.fromEntries(PRODUCTS.map(p=>[p.id,p]));
+/* STOCK: unidades disponibles de cada producto. Pon 0 cuando se agote y se marcará como Agotado. */
+const STOCK={
+  'houndour-houndoom':1,
+  'entei':1,
+  'iron-crown':1,
+  'sentret-furret':1,
+  'pikachu-tokyo-station':1,
+  'pikachu-30-aniversario':1,
+  'linea-pichu':1,
+  'linea-chikorita':1,
+  'scyther-scizor':1,
+  'walking-wake':1,
+  'linea-tepig':1,
+  'snubbull-granbull':1,
+  'pecharunt':1,
+  'okidogi':1,
+  'linea-cyndaquil':1,
+  'linea-larvitar':1,
+};
+for(const p of PRODUCTS){if(p.id in STOCK){p.stock=STOCK[p.id];if(p.stock<=0)p.soldout=1}}
+const maxQ=id=>Math.min(9,byId[id].stock??9);
+const stockTxt=p=>p.soldout||p.soon||p.stock==null||p.stock>3?'':p.stock===1?'Última unidad':`Quedan ${p.stock}`;
+
 const FREE=50, SHIP=4.95;
 const eur=n=>n.toLocaleString('es-ES',{style:'currency',currency:'EUR'});
 const src=n=>`img/${n}.jpg`;
@@ -643,7 +671,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 let filter='all', query='', sort='feat';
 let cart={};
 try{cart=JSON.parse(localStorage.getItem('poket-cart')||'{}')||{}}catch(e){cart={}}
-for(const k in cart) if(!byId[k]||byId[k].soldout||byId[k].soon) delete cart[k];
+for(const k in cart){if(!byId[k]||byId[k].soldout||byId[k].soon) delete cart[k]; else cart[k]=Math.min(cart[k],maxQ(k))}
 const save=()=>{try{localStorage.setItem('poket-cart',JSON.stringify(cart))}catch(e){}};
 
 /* contadores de categoría */
@@ -676,7 +704,7 @@ function renderGrid(){
       <div class="body">
         <div class="dex mono">${p.dex?'Nº '+p.dex:p.cat==='cajas'?'Edición especial':'Accesorio'} · ${CATS[p.cat]}</div>
         <h3><button data-open="${p.id}">${esc(p.name)}</button></h3>
-        <div class="orig">${esc(p.origin||'Pokémon Center Japón')}</div>
+        <div class="orig">${esc(p.origin||'Pokémon Center Japón')}</div>${stockTxt(p)?`<div class="stk">${stockTxt(p)}</div>`:''}
         <div class="row"><span class="price${p.soon?' soon':''}">${p.soon?'Precio pronto':eur(p.price)}</span>
           ${p.soon?`<button class="add" disabled aria-label="${esc(p.name)} próximamente"><span class="lbl">Próximamente</span></button>`:p.soldout?`<button class="add" disabled aria-label="${esc(p.name)} agotado"><span class="lbl">Agotado</span></button>`:`<button class="add" data-add="${p.id}" aria-label="Añadir ${esc(p.name)} al carrito"><span aria-hidden="true">+</span><span class="lbl">Añadir</span></button>`}</div>
       </div>
@@ -692,6 +720,7 @@ function openProduct(id){
   $('#pdDex').textContent=(cur.dex?'Pokédex Nº '+cur.dex+' · ':'')+CATS[cur.cat];
   $('#pdName').textContent=cur.name;
   $('#pdPrice').textContent=cur.soon?'Próximamente · precio por confirmar':eur(cur.price);
+  $('#pdStock').textContent=stockTxt(cur); $('#pdStock').hidden=!stockTxt(cur);
   $('#pdDesc').textContent=cur.desc;
   const specs=[['Incluye',cur.inc||'1 charm con mosquetón'],['Tamaño',cur.size||'3–5 cm aprox. (ver foto con regla)'],['Material',cur.material||(cur.cat==='peluches'?'Felpa y poliéster':'Metal esmaltado')],['Origen',cur.origin||'Pokémon Center Japón']];
   $('#pdSpecs').innerHTML=specs.map(([a,b])=>`<dt>${a}</dt><dd>${esc(b)}</dd>`).join('');
@@ -719,7 +748,7 @@ $('#pdNext').onclick=()=>showImg(curImg+1);
  document.addEventListener('keydown',e=>{if(!$('#pd').open)return;if(e.key==='ArrowRight')showImg(curImg+1);if(e.key==='ArrowLeft')showImg(curImg-1)});})();
 $('#pdThumbs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)showImg(+b.dataset.i)});
 $('#qMinus').onclick=()=>{qn=Math.max(1,qn-1);$('#qVal').textContent=qn};
-$('#qPlus').onclick=()=>{qn=Math.min(9,qn+1);$('#qVal').textContent=qn};
+$('#qPlus').onclick=()=>{const m=maxQ(cur.id)-(cart[cur.id]||0);if(qn>=m){toast(m<=0?'Ya tienes todas las unidades en el carrito':m===1?'Solo queda 1 unidad':`Solo quedan ${m} unidades`);return}qn++;$('#qVal').textContent=qn};
 $('#pdAdd').onclick=()=>{add(cur.id,qn);$('#pd').close()};
 $('#pdClose').onclick=()=>$('#pd').close();
 $('#pd').addEventListener('click',e=>{if(e.target===$('#pd'))$('#pd').close()});
@@ -729,8 +758,10 @@ function add(id,n=1,fromEl){
   if(byId[id].soon) return;
   try{flyTo(id,fromEl)}catch(e){}
   if(byId[id].soldout) return;
-  cart[id]=Math.min(9,(cart[id]||0)+n); save(); updateCount();
-  toast(`${byId[id].name} añadido al carrito`);
+  const have=cart[id]||0, m=maxQ(id);
+  if(have>=m){toast(m===1?'Solo hay 1 unidad y ya está en tu carrito':`Ya tienes las ${m} unidades disponibles en el carrito`);return}
+  cart[id]=Math.min(m,have+n); save(); updateCount();
+  toast(have+n>m?`Solo quedaban ${m}: añadidas al carrito`:`${byId[id].name} añadido al carrito`);
   const b=$('#openCart'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
   if(drawerOpen) renderCart();
 }
@@ -746,7 +777,7 @@ function renderCart(){
   if(!items().length){body.innerHTML=`<div class="thanks"><div class="big">Tu carrito está vacío</div><p class="note">Añade un charm o un peluche y aparecerá aquí.</p><button class="btn primary" id="keep">Ver la tienda</button></div>`;return}
   const left=FREE-sub;
   const shipHtml=`<div class="ship">${left>0?`Te faltan <b>${eur(left)}</b> para el envío gratis`:'<b>Tienes envío gratis</b>'}<div class="bar"><i style="width:${Math.min(100,sub/FREE*100)}%"></i></div></div>`;
-  const lines=`<div class="lines">${items().map(([k,v])=>{const p=byId[k];return `<div class="line"><img src="${src(p.imgs[0])}" alt=""><div style="min-width:0"><b>${esc(p.name)}</b><div class="sub"><div class="qty"><button data-dec="${k}" aria-label="Quitar uno">−</button><output>${v}</output><button data-inc="${k}" aria-label="Añadir uno">+</button></div><button class="rm" data-rm="${k}">Quitar</button></div></div><span class="lp">${eur(p.price*v)}</span></div>`}).join('')}</div>`;
+  const lines=`<div class="lines">${items().map(([k,v])=>{const p=byId[k];return `<div class="line"><img src="${src(p.imgs[0])}" alt=""><div style="min-width:0"><b>${esc(p.name)}</b><div class="sub"><div class="qty"><button data-dec="${k}" aria-label="Quitar uno">−</button><output>${v}</output><button data-inc="${k}" aria-label="Añadir uno"${v>=maxQ(k)?' disabled title="No hay más unidades"':''}>+</button></div><button class="rm" data-rm="${k}">Quitar</button></div></div><span class="lp">${eur(p.price*v)}</span></div>`}).join('')}</div>`;
   const totals=`<div class="tot"><span>Subtotal</span><span>${eur(sub)}</span></div><div class="tot"><span>Envío</span><span>${ship?eur(ship):'Gratis'}</span></div><div class="tot big"><span>Total</span><span>${eur(sub+ship)}</span></div>`;
   if(step==='checkout'){
     body.innerHTML=`${lines.replace('class="lines"','class="lines" style="flex:0 1 auto;max-height:30vh"')}<form class="dr-foot co" id="coForm" style="flex:1;overflow:auto">
@@ -764,7 +795,7 @@ function renderCart(){
 }
 $('#drawer').addEventListener('click',e=>{
   const t=e.target.closest('button'); if(!t) return;
-  if(t.dataset.inc){cart[t.dataset.inc]=Math.min(9,cart[t.dataset.inc]+1)}
+  if(t.dataset.inc){cart[t.dataset.inc]=Math.min(maxQ(t.dataset.inc),cart[t.dataset.inc]+1)}
   else if(t.dataset.dec){cart[t.dataset.dec]--; if(cart[t.dataset.dec]<=0) delete cart[t.dataset.dec]}
   else if(t.dataset.rm){delete cart[t.dataset.rm]}
   else if(t.id==='toCheckout'){step='checkout'}
