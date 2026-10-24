@@ -71,7 +71,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;backgroun
 .logo b{font:800 2.1rem/0.9 var(--f-display);color:var(--logo-fill);-webkit-text-stroke:7px var(--coral);paint-order:stroke fill;letter-spacing:-.01em;transform:rotate(-3deg)}
 .logo span{margin-top:2px;font:700 .62rem/1 var(--f-display);letter-spacing:.42em;padding:3px 6px 2px 10px;border:2px solid var(--coral);border-radius:99px;background:var(--logo-fill);color:var(--coral)}
 nav.main{display:flex;gap:4px;margin-left:8px}
-nav.main a{color:var(--ink);text-decoration:none;font-weight:600;padding:.45rem .8rem;border-radius:99px}
+nav.main a{color:var(--ink);text-decoration:none;font-weight:600;padding:.45rem .7rem;border-radius:99px;white-space:nowrap}
 nav.main a:hover{background:var(--pink)}
 .search{margin-left:auto;position:relative;flex:0 1 260px;min-width:0}
 .search input{width:100%;border:1.5px solid var(--line);background:var(--surface);border-radius:99px;padding:.55rem 1rem .55rem 2.3rem}
@@ -375,7 +375,7 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
       <a href="#tienda" data-go="peluches">Peluches</a>
       <a href="#tienda" data-go="joyeria">Joyería</a>
       <a href="#nosotros">Cómo funciona</a>
-      <a href="#pokecenters">Pokémon Centers</a>
+      <a href="#pokecenters">Tiendas</a>
       <a href="#contacto">Contacto</a>
     </nav>
     <label class="search">
@@ -390,7 +390,11 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 </header>
 
 <main id="inicio">
-  <section class="hero"><div class="sparkles" id="sparkles" aria-hidden="true"></div>
+  <section class="portada" aria-label="Poket Center">
+    <img src="img/fondo-poket-center.jpg" alt="Poket Center, tienda de productos originales de los Pokémon Center de Japón">
+    <a class="bajar" href="#tienda-hero" aria-label="Ver la tienda"><span></span></a>
+  </section>
+  <section class="hero" id="tienda-hero"><div class="sparkles" id="sparkles" aria-hidden="true"></div>
     <div class="wrap">
       <div>
         <div class="eyebrow">Traído de los Pokémon Center de Japón</div>
@@ -406,8 +410,20 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
           <span><i></i>Stock limitado</span>
         </div>
       </div>
+      <div class="showcase" aria-label="Destacados">
+        <button class="sc sc1" data-open="pikachu-30-aniversario"><img src="img/of2-pikachu-30-aniversario.jpg" alt="Pikachu 30 aniversario"><span class="tag"><b>Pikachu 30 aniversario</b>74,90&nbsp;€</span></button>
+        <button class="sc sc2" data-open="entei"><img src="img/of2-entei.jpg" alt="Charm Entei"><span class="tag"><b>Entei</b>9,90&nbsp;€</span></button>
+        <button class="sc sc3" data-open="linea-pichu"><img src="img/of2-linea-pichu.jpg" alt="Pichu, Pikachu y Raichu"><span class="tag"><b>Pichu → Raichu</b>24,90&nbsp;€</span></button>
+      </div>
     </div>
   </section>
+
+  <section class="trust" aria-label="Por qué comprar aquí"><div class="wrap">
+    <div class="tr"><span class="ti">✦</span><div><b>Originales de Japón</b><small>Comprados en persona en los Pokémon Center</small></div></div>
+    <div class="tr"><span class="ti">⇢</span><div><b>Envío en 24–48 h</b><small>Desde España · gratis desde 50 €</small></div></div>
+    <div class="tr"><span class="ti">↺</span><div><b>14 días para devolver</b><small>Sin dar explicaciones</small></div></div>
+    <div class="tr"><span class="ti">✆</span><div><b>Te atendemos por WhatsApp</b><small>Respuesta en el mismo día</small></div></div>
+  </div></section>
 
   <section id="categorias">
     <div class="wrap">
@@ -684,7 +700,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* estado */
-let filter='all', query='', sort='feat';
+let filter='all', query='', sort='feat', showOut=false;
 let cart={};
 try{cart=JSON.parse(localStorage.getItem('poket-cart')||'{}')||{}}catch(e){cart={}}
 for(const k in cart){if(!byId[k]||byId[k].soldout||byId[k].soon) delete cart[k]; else cart[k]=Math.min(cart[k],maxQ(k))}
@@ -711,6 +727,7 @@ function renderGrid(){
   else { const pro=x=>/^of/.test(x.imgs[0])?1:0; list.sort((a,b)=>(b.nuevo||0)-(a.nuevo||0)||pro(b)-pro(a)||(b.feat||0)-(a.feat||0)||a.order-b.order); }
   const rk=x=>x.soldout?2:x.soon?1:0; list.sort((a,b)=>rk(a)-rk(b));
   $('#shopTitle').textContent=filter==='all'?'Toda la tienda':CATS[filter];
+  const outs=list.filter(p=>p.soldout); if(!showOut&&!q&&outs.length&&outs.length<list.length) list=list.filter(p=>!p.soldout); const hidOut=list.length<(list.length+outs.length)&&!list.some(p=>p.soldout)?outs.length:0;
   $('#grid').innerHTML=list.length?list.map((p,ix)=>`
     <article class="card${p.soldout?' out':''}${p.cat==='charms'?' charm':''}${p.soon?' soon-card':''}" style="--i:${Math.min(ix,12)}">
       <button class="ph" data-open="${p.id}" aria-label="Ver ${esc(p.name)}">
@@ -720,14 +737,16 @@ function renderGrid(){
       <div class="body">
         <div class="dex mono">${p.dex?'Nº '+p.dex:p.cat==='cajas'?'Edición especial':'Accesorio'} · ${CATS[p.cat]}</div>
         <h3><button data-open="${p.id}">${esc(p.name)}</button></h3>
-        <div class="orig">${esc(p.origin||'Pokémon Center Japón')}</div>${stockTxt(p)?`<div class="stk">${stockTxt(p)}</div>`:''}
+        ${p.origin&&p.origin!=='Pokémon Center Japón'?`<div class="orig">${esc(p.origin)}</div>`:''}${stockTxt(p)?`<div class="stk">${stockTxt(p)}</div>`:''}
         <div class="row"><span class="price${p.soon?' soon':''}">${p.soon?'Precio pronto':eur(p.price)}</span>
           ${p.soon?`<button class="add" disabled aria-label="${esc(p.name)} próximamente"><span class="lbl">Próximamente</span></button>`:p.soldout?`<button class="add" disabled aria-label="${esc(p.name)} agotado"><span class="lbl">Agotado</span></button>`:`<button class="add" data-add="${p.id}" aria-label="Añadir ${esc(p.name)} al carrito"><span aria-hidden="true">+</span><span class="lbl">Añadir</span></button>`}</div>
       </div>
     </article>`).join('')
     :`<div class="empty"><b>No hay nada con «${esc(query)}».</b><br>Prueba con otro nombre de Pokémon o mira toda la tienda.</div>`;
+  if(hidOut) $('#grid').insertAdjacentHTML('beforeend',`<div class="outmore"><button class="btn ghost" id="showOut">Ver ${hidOut} agotados</button><small>Algunos vuelven: escríbenos y te avisamos.</small></div>`);
 }
-function setFilter(f){filter=f;renderChips();renderGrid()}
+function setFilter(f){filter=f;showOut=false;renderChips();renderGrid()}
+document.addEventListener('click',e=>{if(e.target.closest('#showOut')){showOut=true;renderGrid()}});
 
 /* modal de producto */
 let cur=null, qn=1;
@@ -861,6 +880,42 @@ $('#pcClose').onclick=()=>$('#pcBox').close();$('#pcBox').addEventListener('clic
 .pc-box img{display:block;max-height:78dvh;max-width:100%;border-radius:18px;margin-inline:auto}
 .pc-box p{margin:.6rem .4rem .2rem;font-weight:600}
 @media (max-width:900px){.pc-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.pc-item figcaption{left:6px;right:6px;bottom:6px;padding:.35rem .55rem;border-radius:10px}.pc-item figcaption b{font-size:.75rem}.pc-item figcaption span{display:none}.pc-credit{font-size:.6rem}}
+
+/* === mejoras estéticas v2 === */
+.hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important}
+.hero .wrap>div:first-child{background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:32px;padding:clamp(20px,3.4vw,40px);box-shadow:0 30px 60px -40px rgba(120,60,50,.45)}
+.showcase{position:relative;height:440px}
+.sc{all:unset;cursor:pointer;position:absolute;background:#fff;border-radius:28px;box-shadow:0 26px 50px -24px rgba(120,60,50,.5);padding:14px;transition:transform .35s cubic-bezier(.2,.9,.25,1.2),box-shadow .35s}
+.sc img{display:block;width:100%;height:100%;object-fit:contain}
+.sc .tag{position:absolute;left:12px;bottom:-16px;background:#3A2828;color:#FFE58A;border-radius:99px;padding:.4rem .85rem;font:700 .82rem/1.15 var(--f-body);white-space:nowrap;box-shadow:0 8px 18px -8px rgba(0,0,0,.4)}
+.sc .tag b{font-weight:600;color:#fff;margin-right:.5em}
+.sc1{width:260px;height:290px;left:50%;top:10px;translate:-50% 0;rotate:-2deg;z-index:2}
+.sc2{width:160px;height:190px;left:0;top:200px;rotate:-8deg;z-index:3}
+.sc3{width:200px;height:170px;right:-6px;top:230px;rotate:7deg;z-index:3}
+.sc:hover{transform:translateY(-8px) scale(1.03);z-index:3;box-shadow:0 34px 60px -24px rgba(120,60,50,.6)}
+@media (prefers-reduced-motion:no-preference){.sc{animation:floaty 6s ease-in-out infinite}.sc2{animation-delay:-2s}.sc3{animation-delay:-4s}}
+@keyframes floaty{50%{translate:0 -8px}}
+.sc1 .tag{top:-14px;bottom:auto;left:auto;right:14px}.sc1{animation-name:floaty1}@keyframes floaty1{0%,100%{translate:-50% 0}50%{translate:-50% -8px}}
+.trust{padding-block:0 8px}
+.trust .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tr{display:flex;gap:12px;align-items:center;background:color-mix(in srgb,var(--surface) 92%,transparent);border:1px solid var(--line);border-radius:20px;padding:14px 16px}
+.ti{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--pink);color:var(--coral-ink);font-weight:800;font-size:1.15rem}
+.tr b{display:block;font-size:.92rem}.tr small{display:block;color:var(--muted);font-size:.78rem;line-height:1.3}
+.outmore{grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 0 6px}
+.outmore .btn{background:var(--surface);border:1.5px solid var(--line)}
+.outmore small{color:var(--muted)}
+.card .stk{margin-top:6px}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr!important}.showcase{display:none}
+ .trust .wrap{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tr{padding:10px;gap:8px;align-items:flex-start}.ti{width:32px;height:32px;font-size:.95rem}.tr b{font-size:.8rem}.tr small{font-size:.7rem}}
+
+.portada{padding:0!important;margin:0!important;position:relative;height:clamp(300px,56.25vw,78vh);overflow:hidden;box-shadow:0 20px 40px -30px rgba(120,60,50,.5)}
+.portada img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
+.portada::after{content:"";position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--bg) 40%,transparent));pointer-events:none}
+.bajar{position:absolute;left:50%;bottom:18px;translate:-50% 0;width:46px;height:46px;border-radius:50%;background:color-mix(in srgb,#fff 88%,transparent);box-shadow:0 8px 20px -8px rgba(0,0,0,.35);display:grid;place-items:center;z-index:1}
+.bajar span{width:12px;height:12px;border-right:3px solid #C2504C;border-bottom:3px solid #C2504C;rotate:45deg;translate:0 -3px}
+@media (prefers-reduced-motion:no-preference){.bajar{animation:bob 2.2s ease-in-out infinite}}
+@keyframes bob{50%{translate:-50% 6px}}
+.hero{padding-block:clamp(28px,5vw,64px)!important}
 </style>
 
 <script>
