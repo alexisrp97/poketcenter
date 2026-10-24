@@ -594,7 +594,10 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
       <div class="buy">
         <div class="qty"><button id="qMinus" aria-label="Quitar uno">−</button><output id="qVal">1</output><button id="qPlus" aria-label="Añadir uno">+</button></div>
         <button class="btn primary" id="pdAdd">Añadir al carrito</button>
+        <a class="btn notify-big" id="pdNotify" target="_blank" rel="noopener" hidden>🔔 Avísame cuando vuelva</a>
       </div>
+      <p class="notify-note" id="pdNotifyNote" hidden>Te escribimos por WhatsApp en cuanto lo tengamos. Sin compromiso.</p>
+      <div class="related" id="pdRel"></div>
     </div>
   </div>
 </dialog>
@@ -724,6 +727,7 @@ const STOCK={
 };
 for(const p of PRODUCTS){if(p.id in STOCK){p.stock=STOCK[p.id];if(p.stock<=0)p.soldout=1}}
 const maxQ=id=>Math.min(9,byId[id].stock??9);
+const notifyUrl=p=>'https://wa.me/34631744479?text='+encodeURIComponent(`Hola Poket Center, avisadme cuando ${p.soon?'salga':'vuelva'}: ${p.name}`);
 const stockTxt=p=>p.soldout||p.soon||p.stock==null||p.stock>3?'':p.stock===1?'Última unidad':`Quedan ${p.stock}`;
 
 const FREE=50, SHIP=4.95;
@@ -772,7 +776,7 @@ function renderGrid(){
         <h3><button data-open="${p.id}">${esc(p.name)}</button></h3>
         ${p.origin&&p.origin!=='Pokémon Center Japón'?`<div class="orig">${esc(p.origin)}</div>`:''}${stockTxt(p)?`<div class="stk">${stockTxt(p)}</div>`:''}
         <div class="row"><span class="price${p.soon?' soon':''}">${p.soon?'Precio pronto':eur(p.price)}</span>
-          ${p.soon?`<button class="add" disabled aria-label="${esc(p.name)} próximamente"><span class="lbl">Próximamente</span></button>`:p.soldout?`<button class="add" disabled aria-label="${esc(p.name)} agotado"><span class="lbl">Agotado</span></button>`:`<button class="add" data-add="${p.id}" aria-label="Añadir ${esc(p.name)} al carrito"><span aria-hidden="true">+</span><span class="lbl">Añadir</span></button>`}</div>
+          ${p.soon||p.soldout?`<a class="add notify" href="${notifyUrl(p)}" target="_blank" rel="noopener" aria-label="Avísame cuando ${p.soon?'salga':'vuelva'} ${esc(p.name)}"><span aria-hidden="true">🔔</span><span class="lbl">Avísame</span></a>`:`<button class="add" data-add="${p.id}" aria-label="Añadir ${esc(p.name)} al carrito"><span aria-hidden="true">+</span><span class="lbl">Añadir</span></button>`}</div>
       </div>
     </article>`).join('')
     :`<div class="empty"><b>No hay nada con «${esc(query)}».</b><br>Prueba con otro nombre de Pokémon o mira toda la tienda.<br><a class="btn primary" style="margin-top:14px" href="#encargos" data-enc="${esc(query)}">Pídenoslo y lo buscamos en Japón</a></div>`;
@@ -794,9 +798,18 @@ function openProduct(id){
   $('#pdSpecs').innerHTML=specs.map(([a,b])=>`<dt>${a}</dt><dd>${esc(b)}</dd>`).join('');
   firstShow=true; showImg(0);
   const na=cur.soldout||cur.soon; $('#pdAdd').disabled=!!na; $('#pdAdd').textContent=cur.soon?'Próximamente':cur.soldout?'Agotado':'Añadir al carrito'; document.querySelector('.buy .qty').hidden=!!na;
+  $('#pdAdd').hidden=!!na; $('#pdNotify').hidden=$('#pdNotifyNote').hidden=!na; if(na){$('#pdNotify').href=notifyUrl(cur);$('#pdNotify').textContent=cur.soon?'🔔 Avísame cuando salga':'🔔 Avísame cuando vuelva'}
+  renderRelated();
   $('#pdThumbs').innerHTML=cur.imgs.length>1?cur.imgs.map((m,i)=>`<button data-i="${i}" aria-label="Foto ${i+1}" aria-current="${i===0}"><img src="${src(m)}" alt=""></button>`).join(''):'';
   $('#pd').showModal();
 }
+function renderRelated(){
+  const ok=p=>p.id!==cur.id&&!p.soldout&&!p.soon;
+  const score=p=>(p.cat===cur.cat?4:0)+(p.nuevo?1:0)+(Math.abs(p.price-cur.price)<6?1:0);
+  const rel=PRODUCTS.filter(ok).sort((a,b)=>score(b)-score(a)||a.order-b.order).slice(0,4);
+  $('#pdRel').innerHTML=rel.length?`<h3>También te puede gustar</h3><div class="rel-grid">${rel.map(p=>`<button class="rel" data-rel="${p.id}"><span class="ri"><img src="${src(p.imgs[0])}" alt="" loading="lazy"></span><span class="rn">${esc(p.name)}</span><span class="rp">${eur(p.price)}</span></button>`).join('')}</div>`:'';
+}
+$('#pdRel').addEventListener('click',e=>{const b=e.target.closest('[data-rel]');if(b){openProduct(b.dataset.rel);$('#pd .info').scrollTop=0}});
 let curImg=0, firstShow=true;
 function showImg(i){
   const n=cur.imgs.length; i=((i%n)+n)%n; curImg=i;
@@ -844,7 +857,13 @@ function renderCart(){
   if(step==='done'){body.innerHTML=`<div class="thanks"><div class="big">¡Pedido de prueba recibido!</div><p class="note">La tienda aún no está conectada a un sistema de pago, así que no se ha cobrado nada. Este paso se activará al conectar la pasarela.</p><button class="btn primary" id="keep">Seguir comprando</button></div>`;return}
   if(!items().length){body.innerHTML=`<div class="thanks"><div class="big">Tu carrito está vacío</div><p class="note">Añade un charm o un peluche y aparecerá aquí.</p><button class="btn primary" id="keep">Ver la tienda</button></div>`;return}
   const left=FREE-sub;
-  const shipHtml=`<div class="ship">${left>0?`Te faltan <b>${eur(left)}</b> para el envío gratis`:'<b>Tienes envío gratis</b>'}<div class="bar"><i style="width:${Math.min(100,sub/FREE*100)}%"></i></div></div>`;
+  let sugg='';
+  if(left>0){const pool=PRODUCTS.filter(p=>!p.soldout&&!p.soon&&(cart[p.id]||0)<maxQ(p.id));
+    const fits=pool.filter(p=>p.price>=left).sort((a,b)=>a.price-b.price||(b.nuevo||0)-(a.nuevo||0));
+    const under=pool.filter(p=>p.price<left).sort((a,b)=>b.price-a.price||(b.nuevo||0)-(a.nuevo||0));
+    const pick=[...fits.slice(0,1),...under.filter(p=>p.cat==='charms').slice(0,fits.length?2:3)].slice(0,3);
+    sugg=pick.length?`<div class="sugg"><small>Complétalo con:</small>${pick.map(p=>`<div class="sg"><img src="${src(p.imgs[0])}" alt=""><span>${esc(p.name)}<b>${eur(p.price)}</b></span><button data-qadd="${p.id}" aria-label="Añadir ${esc(p.name)}">+ Añadir</button></div>`).join('')}</div>`:'';}
+  const shipHtml=`<div class="ship ${left>0?'':'ok'}"><div class="ship-top"><span class="ship-ic">${left>0?'🚚':'🎉'}</span><div>${left>0?`Te faltan <b>${eur(left)}</b> para el <b>envío gratis</b>`:'<b>¡Tienes envío gratis!</b><small>Te ahorras 4,95 €</small>'}</div></div><div class="bar"><i style="width:${Math.min(100,sub/FREE*100)}%"></i></div>${sugg}</div>`;
   const lines=`<div class="lines">${items().map(([k,v])=>{const p=byId[k];return `<div class="line"><img src="${src(p.imgs[0])}" alt=""><div style="min-width:0"><b>${esc(p.name)}</b><div class="sub"><div class="qty"><button data-dec="${k}" aria-label="Quitar uno">−</button><output>${v}</output><button data-inc="${k}" aria-label="Añadir uno"${v>=maxQ(k)?' disabled title="No hay más unidades"':''}>+</button></div><button class="rm" data-rm="${k}">Quitar</button></div></div><span class="lp">${eur(p.price*v)}</span></div>`}).join('')}</div>`;
   const totals=`<div class="tot"><span>Subtotal</span><span>${eur(sub)}</span></div><div class="tot"><span>Envío</span><span>${ship?eur(ship):'Gratis'}</span></div><div class="tot big"><span>Total</span><span>${eur(sub+ship)}</span></div>`;
   if(step==='checkout'){
@@ -863,6 +882,7 @@ function renderCart(){
 }
 $('#drawer').addEventListener('click',e=>{
   const t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.qadd){add(t.dataset.qadd);renderCart();return}
   if(t.dataset.inc){cart[t.dataset.inc]=Math.min(maxQ(t.dataset.inc),cart[t.dataset.inc]+1)}
   else if(t.dataset.dec){cart[t.dataset.dec]--; if(cart[t.dataset.dec]<=0) delete cart[t.dataset.dec]}
   else if(t.dataset.rm){delete cart[t.dataset.rm]}
@@ -968,6 +988,39 @@ $('#pcClose').onclick=()=>$('#pcBox').close();$('#pcBox').addEventListener('clic
 .enc-acts .btn.primary{background:#25D366;color:#fff}
 .enc-err{margin:0;color:var(--coral-ink);font-weight:700;font-size:.9rem}
 @media (max-width:820px){.encargos .wrap{grid-template-columns:1fr}.enc-row{grid-template-columns:1fr}}
+
+/* avísame + relacionados + envío gratis */
+[hidden]{display:none!important}
+.add.notify{text-decoration:none;background:var(--butter);color:var(--ink)}
+.add.notify:hover{background:#F7E08A}
+.card.out .add.notify{opacity:1}
+.notify-big{background:var(--ink);color:var(--bg);text-decoration:none}
+.notify-big:hover{opacity:.9}
+.notify-note{margin:-2px 0 0;color:var(--muted);font-size:.85rem}
+.related{margin-top:6px;padding-top:16px;border-top:1px solid var(--line)}
+.related h3{font-family:var(--f-body);font-size:1rem;font-weight:800;margin:0 0 10px}
+.rel-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.rel{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-width:0}
+.rel .ri{aspect-ratio:1;background:#fff;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.rel .ri img{width:86%;height:86%;object-fit:contain}
+.rel:hover .ri{transform:translateY(-3px);box-shadow:var(--shadow)}
+.rel .rn{font-size:.75rem;font-weight:600;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rel .rp{font-size:.8rem;font-weight:800;color:var(--coral-ink)}
+.ship{padding:16px 20px;margin:12px 16px 4px;border:0;border-radius:18px;background:var(--butter);font-size:1rem}
+.ship.ok{background:#DDF3D9}
+.ship-top{display:flex;gap:12px;align-items:center}
+.ship-ic{font-size:1.6rem;line-height:1}
+.ship small{display:block;color:var(--muted);font-size:.85rem}
+.ship .bar{height:12px;margin-top:12px;background:color-mix(in srgb,#fff 70%,transparent)}
+.ship.ok .bar i{background:#3FA64A}
+.sugg{margin-top:12px;display:grid;gap:8px}
+.sugg>small{font-weight:700;color:var(--ink)}
+.sg{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;background:var(--surface);border-radius:12px;padding:6px 8px}
+.sg img{width:44px;height:44px;object-fit:contain;background:#fff;border-radius:8px}
+.sg span{font-size:.8rem;font-weight:600;line-height:1.2;min-width:0}
+.sg span b{display:block;color:var(--coral-ink)}
+.sg button{border:0;border-radius:99px;background:var(--coral);color:#fff;font-weight:700;padding:.4rem .75rem;cursor:pointer;white-space:nowrap}
+@media (max-width:560px){.rel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 
 <script>
