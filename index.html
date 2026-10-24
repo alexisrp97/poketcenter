@@ -366,12 +366,12 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 
 
 <div id="pkLoader" aria-hidden="true"><div class="box"><span class="pk-slot" data-anim="hop"></span><div class="txt">CARGANDO</div><div class="pkbar"><i></i></div></div></div>
-<button class="pk-hi" id="pkHi" aria-label="Hola, ¿buscas algo? Ir a encargos"><span class="pk-slot" data-anim="wave"></span><span class="bub" id="pkBub">¡Hola! ¿Buscas algo de Japón?</span><span class="x" id="pkX" aria-hidden="true">✕</span></button>
 <div class="notice" id="notice"><span class="on">Envío gratis en pedidos desde 50&nbsp;€</span><span>Productos originales de los Pokémon Center de Japón</span><span>¿Buscas algo concreto? Te lo traemos de Japón</span><span>Pedidos preparados en 24–48&nbsp;h desde España</span></div>
 
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#inicio" aria-label="Poket Center, inicio"><b>Poket</b><span>CENTER</span></a>
+    <button class="pk-hi" id="pkHi" aria-label="Hola, ¿buscas algo? Ir a encargos"><span class="pk-slot" data-anim="wave"></span><span class="bub" id="pkBub">¡Hola! ¿Buscas algo de Japón?</span></button>
     <nav class="main" aria-label="Categorías">
       <a href="#tienda" data-go="charms">Charms</a>
       <a href="#tienda" data-go="peluches">Peluches</a>
@@ -1095,6 +1095,16 @@ header.top.compact .logo{transform:scale(.86)}
 .pk-empty{display:block;width:52px;height:55px;margin:0 auto 6px}
 @media (max-width:560px){.pk-hi .pk-sprite{width:38px;height:40px}.pk-hi .bub{font-size:10.5px;max-width:140px;margin-bottom:24px}}
 @media (prefers-reduced-motion:reduce){#pkLoader{display:none}}
+
+/* mascota en la cabecera */
+.pk-hi{position:relative!important;left:auto!important;bottom:auto!important;transform:none!important;z-index:31;flex:none;align-items:center;margin-left:-8px;opacity:0;transition:opacity .4s}
+.pk-hi.show{opacity:1}
+.pk-hi .pk-sprite{width:30px!important;height:32px!important;filter:none!important}
+.pk-hi .bub{position:absolute;left:50%;top:calc(100% + 12px);translate:-30% 0;margin:0!important;white-space:nowrap;max-width:none!important;z-index:50}
+.pk-hi .bub::after{left:22px!important;top:-9px;bottom:auto!important;width:12px!important;height:9px!important;clip-path:polygon(50% 0,100% 100%,0 100%)!important}
+header.top.compact .pk-hi .pk-sprite{width:26px!important;height:28px!important}
+@media (max-width:900px){.pk-hi{margin-left:-12px}.pk-hi .pk-sprite{width:26px!important;height:28px!important}.pk-hi .bub{font-size:10.5px}}
+@media (max-width:1360px) and (min-width:901px){nav.main a{padding:.45rem .42rem;font-size:.92rem}.top .wrap{gap:14px}}
 </style>
 
 <script>
@@ -1219,12 +1229,11 @@ function pkSVG(o,cls){if(typeof o==='number')o={};const g=pkGrid(o);const d={1:'
  let seen=false;try{seen=sessionStorage.getItem('pk-hi')==='1'}catch(e){}
  setTimeout(async()=>{H.classList.add('show');if(seen){H.classList.add('quiet');return}
   await run(async()=>{await wait(500);say('¡Hola!');await wave(3);await wait(400);say('よろしくね！');await bow();await wait(500);say('¿Buscas algo de Japón?');await hop()});
-  setTimeout(()=>H.classList.add('quiet'),6000)},1500);
+  setTimeout(()=>H.classList.add('quiet'),3500)},1200);
  // vida propia: parpadea, saluda o hace una reverencia de vez en cuando
- setInterval(()=>{if(!H.classList.contains('show'))return;const r=Math.random();run(r<.55?blink:r<.8?()=>wave(2):r<.92?bow:hop)},3800);
+ setInterval(()=>{if(!H.classList.contains('show'))return;const r=Math.random();run(r<.6?blink:r<.8?()=>wave(2):r<.93?bow:hop)},6500);
  H.addEventListener('mouseenter',()=>run(()=>wave(2)));
- H.addEventListener('click',e=>{if(e.target.id==='pkX'){H.classList.remove('show');try{sessionStorage.setItem('pk-hi','1')}catch(e){};return}
-  if(H.classList.contains('quiet')){say('¿Te ayudo a encontrar algo?');run(bow);setTimeout(()=>H.classList.add('quiet'),5000);return}
+ H.addEventListener('click',e=>{if(H.classList.contains('quiet')){say('¿Te ayudo a encontrar algo?');run(bow);setTimeout(()=>H.classList.add('quiet'),5000);return}
   document.getElementById('encargos').scrollIntoView({behavior:'smooth'});try{sessionStorage.setItem('pk-hi','1')}catch(e){}});
 })();
 </script>
