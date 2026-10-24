@@ -390,11 +390,7 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 </header>
 
 <main id="inicio">
-  <section class="portada" aria-label="Poket Center">
-    <img src="img/fondo-poket-center.jpg" alt="Poket Center, tienda de productos originales de los Pokémon Center de Japón">
-    <a class="bajar" href="#tienda-hero" aria-label="Ver la tienda"><span></span></a>
-  </section>
-  <section class="hero" id="tienda-hero"><div class="sparkles" id="sparkles" aria-hidden="true"></div>
+  <section class="hero"><div class="sparkles" id="sparkles" aria-hidden="true"></div>
     <div class="wrap">
       <div>
         <div class="eyebrow">Traído de los Pokémon Center de Japón</div>
@@ -883,7 +879,7 @@ $('#pcClose').onclick=()=>$('#pcBox').close();$('#pcBox').addEventListener('clic
 
 /* === mejoras estéticas v2 === */
 .hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)!important}
-.hero .wrap>div:first-child{background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:32px;padding:clamp(20px,3.4vw,40px);box-shadow:0 30px 60px -40px rgba(120,60,50,.45)}
+.hero .wrap>div:first-child{background:color-mix(in srgb,var(--bg) 42%,transparent);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);border:1.5px solid color-mix(in srgb,#fff 55%,transparent);border-radius:32px;padding:clamp(20px,3.4vw,40px);box-shadow:0 30px 60px -40px rgba(120,60,50,.45)}
 .showcase{position:relative;height:440px}
 .sc{all:unset;cursor:pointer;position:absolute;background:#fff;border-radius:28px;box-shadow:0 26px 50px -24px rgba(120,60,50,.5);padding:14px;transition:transform .35s cubic-bezier(.2,.9,.25,1.2),box-shadow .35s}
 .sc img{display:block;width:100%;height:100%;object-fit:contain}
@@ -908,14 +904,6 @@ $('#pcClose').onclick=()=>$('#pcBox').close();$('#pcBox').addEventListener('clic
 @media (max-width:900px){.hero .wrap{grid-template-columns:1fr!important}.showcase{display:none}
  .trust .wrap{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.tr{padding:10px;gap:8px;align-items:flex-start}.ti{width:32px;height:32px;font-size:.95rem}.tr b{font-size:.8rem}.tr small{font-size:.7rem}}
 
-.portada{padding:0!important;margin:0!important;position:relative;height:clamp(300px,56.25vw,78vh);overflow:hidden;box-shadow:0 20px 40px -30px rgba(120,60,50,.5)}
-.portada img{width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block}
-.portada::after{content:"";position:absolute;inset:auto 0 0;height:60px;background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--bg) 40%,transparent));pointer-events:none}
-.bajar{position:absolute;left:50%;bottom:18px;translate:-50% 0;width:46px;height:46px;border-radius:50%;background:color-mix(in srgb,#fff 88%,transparent);box-shadow:0 8px 20px -8px rgba(0,0,0,.35);display:grid;place-items:center;z-index:1}
-.bajar span{width:12px;height:12px;border-right:3px solid #C2504C;border-bottom:3px solid #C2504C;rotate:45deg;translate:0 -3px}
-@media (prefers-reduced-motion:no-preference){.bajar{animation:bob 2.2s ease-in-out infinite}}
-@keyframes bob{50%{translate:-50% 6px}}
-.hero{padding-block:clamp(28px,5vw,64px)!important}
 </style>
 
 <script>
