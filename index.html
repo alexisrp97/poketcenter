@@ -53,7 +53,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;position:relative;isolation:isolate}
 /* fondo: banner de Poket Center fijo detrás de toda la interfaz */
-body::before{content:"";position:fixed;inset:0;z-index:-2;background:url("img/fondo-poket-center.jpg") center/cover no-repeat}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:url("img/fondo-poket-center.webp") center/cover no-repeat}
 body::after{content:"";position:fixed;inset:0;z-index:-1;background:var(--veil)}
 .wrap{max-width:1240px;margin-inline:auto;padding-inline:var(--gutter)}
 h1,h2,h3{font-family:var(--f-display);line-height:1.05;text-wrap:balance;margin:0}
@@ -365,7 +365,7 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 <body>
 
 
-<div class="notice">Envío gratis en pedidos desde 50&nbsp;€ · Productos originales de Pokémon Center Japón</div>
+<div class="notice" id="notice"><span class="on">Envío gratis en pedidos desde 50&nbsp;€</span><span>Productos originales de los Pokémon Center de Japón</span><span>¿Buscas algo concreto? Te lo traemos de Japón</span><span>Pedidos preparados en 24–48&nbsp;h desde España</span></div>
 
 <header class="top">
   <div class="wrap">
@@ -408,9 +408,9 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
         </div>
       </div>
       <div class="showcase" aria-label="Destacados">
-        <button class="sc sc1" data-open="pikachu-30-aniversario"><img src="img/of2-pikachu-30-aniversario.jpg" alt="Pikachu 30 aniversario"><span class="tag"><b>Pikachu 30 aniversario</b>74,90&nbsp;€</span></button>
-        <button class="sc sc2" data-open="entei"><img src="img/of2-entei.jpg" alt="Charm Entei"><span class="tag"><b>Entei</b>9,90&nbsp;€</span></button>
-        <button class="sc sc3" data-open="linea-pichu"><img src="img/of2-linea-pichu.jpg" alt="Pichu, Pikachu y Raichu"><span class="tag"><b>Pichu → Raichu</b>24,90&nbsp;€</span></button>
+        <button class="sc sc1" data-open="pikachu-30-aniversario"><img src="img/s/of2-pikachu-30-aniversario.webp" alt="Pikachu 30 aniversario"><span class="tag"><b>Pikachu 30 aniversario</b>74,90&nbsp;€</span></button>
+        <button class="sc sc2" data-open="entei"><img src="img/s/of2-entei.webp" alt="Charm Entei"><span class="tag"><b>Entei</b>9,90&nbsp;€</span></button>
+        <button class="sc sc3" data-open="linea-pichu"><img src="img/s/of2-linea-pichu.webp" alt="Pichu, Pikachu y Raichu"><span class="tag"><b>Pichu → Raichu</b>24,90&nbsp;€</span></button>
       </div>
     </div>
   </section>
@@ -426,10 +426,10 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
     <div class="wrap">
       <div class="sec-head"><h2>Compra por categoría</h2></div>
       <div class="cats">
-        <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/nuevo-linea-pichu.jpg" alt=""></button>
-        <button class="cat" data-go="peluches"><div><h3>Peluches exclusivos</h3><p id="nPeluches"></p></div><img src="img/peluche-pikachu-okinawa.jpg" alt=""></button>
-        <button class="cat" data-go="joyeria"><div><h3>Joyería</h3><p id="nJoyeria"></p></div><img src="img/of-gengar-clip-1.jpg" alt=""></button>
-        <button class="cat soon" data-go="cajas"><div><h3>Cajas exclusivas</h3><p>Fukuoka · Hiroshima · Tohoku</p></div><span class="tag">Próximamente</span><img src="img/caja-hiroshima-box.jpg" alt=""></button>
+        <button class="cat" data-go="charms"><div><h3>Charms metálicos</h3><p id="nCharms"></p></div><img src="img/s/nuevo-linea-pichu.webp" alt=""></button>
+        <button class="cat" data-go="peluches"><div><h3>Peluches exclusivos</h3><p id="nPeluches"></p></div><img src="img/s/peluche-pikachu-okinawa.webp" alt=""></button>
+        <button class="cat" data-go="joyeria"><div><h3>Joyería</h3><p id="nJoyeria"></p></div><img src="img/s/of-gengar-clip-1.webp" alt=""></button>
+        <button class="cat soon" data-go="cajas"><div><h3>Cajas exclusivas</h3><p>Fukuoka · Hiroshima · Tohoku</p></div><span class="tag">Próximamente</span><img src="img/s/caja-hiroshima-box.webp" alt=""></button>
       </div>
     </div>
   </section>
@@ -439,9 +439,9 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
       <div class="soonstrip">
         <div class="lead"><span class="eb"><i></i>Próximamente</span><b>Special Box Pokémon Center</b><small>Ediciones exclusivas de tienda</small></div>
         <div class="boxes">
-          <button class="sbox" data-open="box-fukuoka"><img src="img/caja-fukuoka.jpg" alt=""><span><b>Fukuoka</b><em>Precio pronto</em></span></button>
-          <button class="sbox" data-open="box-hiroshima"><img src="img/caja-hiroshima-box.jpg" alt=""><span><b>Hiroshima</b><em>Precio pronto</em></span></button>
-          <button class="sbox" data-open="box-tohoku"><img src="img/caja-tohoku.jpg" alt=""><span><b>Tohoku</b><em>Precio pronto</em></span></button>
+          <button class="sbox" data-open="box-fukuoka"><img src="img/s/caja-fukuoka.webp" alt=""><span><b>Fukuoka</b><em>Precio pronto</em></span></button>
+          <button class="sbox" data-open="box-hiroshima"><img src="img/s/caja-hiroshima-box.webp" alt=""><span><b>Hiroshima</b><em>Precio pronto</em></span></button>
+          <button class="sbox" data-open="box-tohoku"><img src="img/s/caja-tohoku.webp" alt=""><span><b>Tohoku</b><em>Precio pronto</em></span></button>
         </div>
       </div>
     </div>
@@ -505,7 +505,7 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 
   <section class="about" id="nosotros">
     <div class="wrap">
-      <figure><img src="img/ambiente-charm-tarjeta.jpg" alt="Charm metálico junto a una tarjeta de Pokémon Center"></figure>
+      <figure><img src="img/ambiente-charm-tarjeta.webp" alt="Charm metálico junto a una tarjeta de Pokémon Center"></figure>
       <div>
         <div class="eyebrow">Cómo funciona</div>
         <h2>De una tienda de Tokio a tu mochila</h2>
@@ -523,14 +523,14 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
     <div class="wrap">
       <div class="sec-head"><div><div class="eyebrow">De dónde viene cada pieza</div><h2>Nuestras visitas a los Pokémon Center</h2></div><p class="pc-intro">Los Pokémon Center y Pokémon Store de Tokio donde compramos lo que vendemos.</p></div>
       <div class="pc-grid">
-        <figure class="pc-item"><button class="pc-open" data-pc="0" aria-label="Ampliar foto: Pokémon Center Tokyo DX"><img src="img/tienda-tokyo-dx-snorlax.jpg" alt="Snorlax, Pikachu y Mew reciben a los visitantes en Nihonbashi." loading="lazy"></button><figcaption><b>Pokémon Center Tokyo DX</b><span>Snorlax, Pikachu y Mew reciben a los visitantes en Nihonbashi.</span></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="1" aria-label="Ampliar foto: Pokémon Center Shibuya"><img src="img/tienda-shibuya-mewtwo.jpg" alt="Mewtwo dentro de su cápsula, en la tienda de Shibuya PARCO." loading="lazy"></button><figcaption><b>Pokémon Center Shibuya</b><span>Mewtwo dentro de su cápsula, en la tienda de Shibuya PARCO.</span></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="2" aria-label="Ampliar foto: Pokémon Store Tokyo"><img src="img/tienda-store-tokyo-iniciales.jpg" alt="Quaxly, Sprigatito y Fuecoco sobre maletas de viaje." loading="lazy"></button><figcaption><b>Pokémon Store Tokyo</b><span>Quaxly, Sprigatito y Fuecoco sobre maletas de viaje.</span></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="3" aria-label="Ampliar foto: Pokémon Center Shibuya"><img src="img/tienda-shibuya-entrada.jpg" alt="La entrada negra y espejada, siempre llena de gente." loading="lazy"></button><figcaption><b>Pokémon Center Shibuya</b><span>La entrada negra y espejada, siempre llena de gente.</span></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="4" aria-label="Ampliar foto: Pokémon Store Tokyo"><img src="img/tienda-store-tokyo-vitrina.jpg" alt="Vitrina con los Pikachu revisores y cajas exclusivas de la tienda." loading="lazy"></button><figcaption><b>Pokémon Store Tokyo</b><span>Vitrina con los Pikachu revisores y cajas exclusivas de la tienda.</span></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="5" aria-label="Ampliar foto: Pokémon Center Mega Tokyo"><img src="img/tienda-mega-tokyo-entrada.jpg" alt="En Sunshine City (Ikebukuro), una de las más grandes de Japón." loading="lazy"></button><figcaption><b>Pokémon Center Mega Tokyo</b><span>En Sunshine City (Ikebukuro), una de las más grandes de Japón.</span><a class="pc-credit" href="https://commons.wikimedia.org/wiki/File:Mega_Tokyo_Pok%C3%A9mon_Center_4.jpg" target="_blank" rel="noopener">Foto: Maplestrip · CC BY 3.0</a></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="6" aria-label="Ampliar foto: Pokémon Center Mega Tokyo"><img src="img/tienda-mega-tokyo-tienda.jpg" alt="La entrada, con una Poké Ball gigante junto al mostrador." loading="lazy"></button><figcaption><b>Pokémon Center Mega Tokyo</b><span>La entrada, con una Poké Ball gigante junto al mostrador.</span><a class="pc-credit" href="https://commons.wikimedia.org/wiki/File:Mega_Tokyo_Pok%C3%A9mon_Center_2.jpg" target="_blank" rel="noopener">Foto: Maplestrip · CC BY 3.0</a></figcaption></figure>
-        <figure class="pc-item"><button class="pc-open" data-pc="7" aria-label="Ampliar foto: Pokémon Center Skytree Town"><img src="img/tienda-skytree.jpg" alt="A los pies de la Tokyo Skytree, con Rayquaza en la entrada." loading="lazy"></button><figcaption><b>Pokémon Center Skytree Town</b><span>A los pies de la Tokyo Skytree, con Rayquaza en la entrada.</span><a class="pc-credit" href="https://commons.wikimedia.org/wiki/File:Pok%C3%A9mon_Center_am_Tokio_Skytree_(2024).jpg" target="_blank" rel="noopener">Foto: KaiKnight2 · CC BY-SA 4.0</a></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="0" aria-label="Ampliar foto: Pokémon Center Tokyo DX"><img src="img/s/tienda-tokyo-dx-snorlax.webp" data-full="img/tienda-tokyo-dx-snorlax.webp" alt="Snorlax, Pikachu y Mew reciben a los visitantes en Nihonbashi." loading="lazy"></button><figcaption><b>Pokémon Center Tokyo DX</b><span>Snorlax, Pikachu y Mew reciben a los visitantes en Nihonbashi.</span></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="1" aria-label="Ampliar foto: Pokémon Center Shibuya"><img src="img/s/tienda-shibuya-mewtwo.webp" data-full="img/tienda-shibuya-mewtwo.webp" alt="Mewtwo dentro de su cápsula, en la tienda de Shibuya PARCO." loading="lazy"></button><figcaption><b>Pokémon Center Shibuya</b><span>Mewtwo dentro de su cápsula, en la tienda de Shibuya PARCO.</span></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="2" aria-label="Ampliar foto: Pokémon Store Tokyo"><img src="img/s/tienda-store-tokyo-iniciales.webp" data-full="img/tienda-store-tokyo-iniciales.webp" alt="Quaxly, Sprigatito y Fuecoco sobre maletas de viaje." loading="lazy"></button><figcaption><b>Pokémon Store Tokyo</b><span>Quaxly, Sprigatito y Fuecoco sobre maletas de viaje.</span></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="3" aria-label="Ampliar foto: Pokémon Center Shibuya"><img src="img/s/tienda-shibuya-entrada.webp" data-full="img/tienda-shibuya-entrada.webp" alt="La entrada negra y espejada, siempre llena de gente." loading="lazy"></button><figcaption><b>Pokémon Center Shibuya</b><span>La entrada negra y espejada, siempre llena de gente.</span></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="4" aria-label="Ampliar foto: Pokémon Store Tokyo"><img src="img/s/tienda-store-tokyo-vitrina.webp" data-full="img/tienda-store-tokyo-vitrina.webp" alt="Vitrina con los Pikachu revisores y cajas exclusivas de la tienda." loading="lazy"></button><figcaption><b>Pokémon Store Tokyo</b><span>Vitrina con los Pikachu revisores y cajas exclusivas de la tienda.</span></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="5" aria-label="Ampliar foto: Pokémon Center Mega Tokyo"><img src="img/s/tienda-mega-tokyo-entrada.webp" data-full="img/tienda-mega-tokyo-entrada.webp" alt="En Sunshine City (Ikebukuro), una de las más grandes de Japón." loading="lazy"></button><figcaption><b>Pokémon Center Mega Tokyo</b><span>En Sunshine City (Ikebukuro), una de las más grandes de Japón.</span><a class="pc-credit" href="https://commons.wikimedia.org/wiki/File:Mega_Tokyo_Pok%C3%A9mon_Center_4.jpg" target="_blank" rel="noopener">Foto: Maplestrip · CC BY 3.0</a></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="6" aria-label="Ampliar foto: Pokémon Center Mega Tokyo"><img src="img/s/tienda-mega-tokyo-tienda.webp" data-full="img/tienda-mega-tokyo-tienda.webp" alt="La entrada, con una Poké Ball gigante junto al mostrador." loading="lazy"></button><figcaption><b>Pokémon Center Mega Tokyo</b><span>La entrada, con una Poké Ball gigante junto al mostrador.</span><a class="pc-credit" href="https://commons.wikimedia.org/wiki/File:Mega_Tokyo_Pok%C3%A9mon_Center_2.jpg" target="_blank" rel="noopener">Foto: Maplestrip · CC BY 3.0</a></figcaption></figure>
+        <figure class="pc-item"><button class="pc-open" data-pc="7" aria-label="Ampliar foto: Pokémon Center Skytree Town"><img src="img/s/tienda-skytree.webp" data-full="img/tienda-skytree.webp" alt="A los pies de la Tokyo Skytree, con Rayquaza en la entrada." loading="lazy"></button><figcaption><b>Pokémon Center Skytree Town</b><span>A los pies de la Tokyo Skytree, con Rayquaza en la entrada.</span><a class="pc-credit" href="https://commons.wikimedia.org/wiki/File:Pok%C3%A9mon_Center_am_Tokio_Skytree_(2024).jpg" target="_blank" rel="noopener">Foto: KaiKnight2 · CC BY-SA 4.0</a></figcaption></figure>
       </div>
     </div>
   </section>
@@ -732,7 +732,8 @@ const stockTxt=p=>p.soldout||p.soon||p.stock==null||p.stock>3?'':p.stock===1?'Ú
 
 const FREE=50, SHIP=4.95;
 const eur=n=>n.toLocaleString('es-ES',{style:'currency',currency:'EUR'});
-const src=n=>`img/${n}.jpg`;
+const src=n=>`img/${n}.webp`;
+const srcS=n=>`img/s/${n}.webp`;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
@@ -768,7 +769,7 @@ function renderGrid(){
   $('#grid').innerHTML=list.length?list.map((p,ix)=>`
     <article class="card${p.soldout?' out':''}${p.cat==='charms'?' charm':''}${p.soon?' soon-card':''}" style="--i:${Math.min(ix,12)}">
       <button class="ph" data-open="${p.id}" aria-label="Ver ${esc(p.name)}">
-        <img class="main${p.imgs[1]&&!p.soldout?' has-alt':''}" src="${src(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">${p.imgs[1]&&!p.soldout?`<img class="alt" src="${src(p.imgs[1])}" alt="" loading="lazy">`:''}${p.imgs.length>1&&!p.soldout?`<span class="more">${p.imgs.length} fotos</span>`:''}
+        <img class="main${p.imgs[1]&&!p.soldout?' has-alt':''}" src="${srcS(p.imgs[0])}" alt="${esc(p.name)}" loading="lazy">${p.imgs[1]&&!p.soldout?`<img class="alt" src="${srcS(p.imgs[1])}" alt="" loading="lazy">`:''}${p.imgs.length>1&&!p.soldout?`<span class="more">${p.imgs.length} fotos</span>`:''}
         ${p.soon?'<span class="badge soon">Próximamente</span>':p.soldout?'<span class="badge out">Agotado</span>':p.badge?`<span class="badge ${p.low?'low':p.badgeAlt?'alt':''}">${p.badge}</span>`:''}
       </button>
       <div class="body">
@@ -780,8 +781,10 @@ function renderGrid(){
       </div>
     </article>`).join('')
     :`<div class="empty"><b>No hay nada con «${esc(query)}».</b><br>Prueba con otro nombre de Pokémon o mira toda la tienda.<br><a class="btn primary" style="margin-top:14px" href="#encargos" data-enc="${esc(query)}">Pídenoslo y lo buscamos en Japón</a></div>`;
+  markLoaded();
   if(hidOut) $('#grid').insertAdjacentHTML('beforeend',`<div class="outmore"><button class="btn ghost" id="showOut">Ver ${hidOut} agotados</button><small>Algunos vuelven: escríbenos y te avisamos.</small></div>`);
 }
+function markLoaded(){document.querySelectorAll('#grid .ph img.main').forEach(im=>{const ph=im.closest('.ph');if(im.complete&&im.naturalWidth)ph.classList.add('ld');else im.addEventListener('load',()=>ph.classList.add('ld'),{once:true})})}
 function setFilter(f){filter=f;showOut=false;renderChips();renderGrid()}
 document.addEventListener('click',e=>{if(e.target.closest('#showOut')){showOut=true;renderGrid()}});
 
@@ -800,14 +803,14 @@ function openProduct(id){
   const na=cur.soldout||cur.soon; $('#pdAdd').disabled=!!na; $('#pdAdd').textContent=cur.soon?'Próximamente':cur.soldout?'Agotado':'Añadir al carrito'; document.querySelector('.buy .qty').hidden=!!na;
   $('#pdAdd').hidden=!!na; $('#pdNotify').hidden=$('#pdNotifyNote').hidden=!na; if(na){$('#pdNotify').href=notifyUrl(cur);$('#pdNotify').textContent=cur.soon?'🔔 Avísame cuando salga':'🔔 Avísame cuando vuelva'}
   renderRelated();
-  $('#pdThumbs').innerHTML=cur.imgs.length>1?cur.imgs.map((m,i)=>`<button data-i="${i}" aria-label="Foto ${i+1}" aria-current="${i===0}"><img src="${src(m)}" alt=""></button>`).join(''):'';
+  $('#pdThumbs').innerHTML=cur.imgs.length>1?cur.imgs.map((m,i)=>`<button data-i="${i}" aria-label="Foto ${i+1}" aria-current="${i===0}"><img src="${srcS(m)}" alt=""></button>`).join(''):'';
   $('#pd').showModal();
 }
 function renderRelated(){
   const ok=p=>p.id!==cur.id&&!p.soldout&&!p.soon;
   const score=p=>(p.cat===cur.cat?4:0)+(p.nuevo?1:0)+(Math.abs(p.price-cur.price)<6?1:0);
   const rel=PRODUCTS.filter(ok).sort((a,b)=>score(b)-score(a)||a.order-b.order).slice(0,4);
-  $('#pdRel').innerHTML=rel.length?`<h3>También te puede gustar</h3><div class="rel-grid">${rel.map(p=>`<button class="rel" data-rel="${p.id}"><span class="ri"><img src="${src(p.imgs[0])}" alt="" loading="lazy"></span><span class="rn">${esc(p.name)}</span><span class="rp">${eur(p.price)}</span></button>`).join('')}</div>`:'';
+  $('#pdRel').innerHTML=rel.length?`<h3>También te puede gustar</h3><div class="rel-grid">${rel.map(p=>`<button class="rel" data-rel="${p.id}"><span class="ri"><img src="${srcS(p.imgs[0])}" alt="" loading="lazy"></span><span class="rn">${esc(p.name)}</span><span class="rp">${eur(p.price)}</span></button>`).join('')}</div>`:'';
 }
 $('#pdRel').addEventListener('click',e=>{const b=e.target.closest('[data-rel]');if(b){openProduct(b.dataset.rel);$('#pd .info').scrollTop=0}});
 let curImg=0, firstShow=true;
@@ -848,10 +851,14 @@ function add(id,n=1,fromEl){
 }
 const items=()=>Object.entries(cart).filter(([k,v])=>v>0);
 const subtotal=()=>items().reduce((s,[k,v])=>s+byId[k].price*v,0);
-function updateCount(){$('#cartCount').textContent=items().reduce((s,[,v])=>s+v,0)}
+function updateCount(){$('#cartCount').textContent=items().reduce((s,[,v])=>s+v,0);const f=subtotal()>=FREE;if(wasFree===false&&f)confetti();wasFree=f}
+function confetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=['#EE7470','#FBEDB0','#FCDCDA','#C2504C','#FFD34D','#7CC6E8'];const box=document.createElement('div');box.className='confetti';
+ for(let i=0;i<70;i++){const e=document.createElement('i');const a=Math.random()*Math.PI*2,d=160+Math.random()*260;e.style.cssText=`--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d-120}px;--r:${Math.random()*720-360}deg;background:${c[i%c.length]};animation-delay:${Math.random()*.15}s;${i%3?'':'border-radius:50%;'}`;box.appendChild(e)}
+ document.body.appendChild(box);setTimeout(()=>box.remove(),1900);setTimeout(()=>toast('¡Envío gratis desbloqueado! 🎉'),900)}
 let drawerOpen=false, step='cart';
 function openCart(){drawerOpen=true;step='cart';renderCart();$('#drawer').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');setTimeout(()=>$('#closeCart').focus(),50)}
 function closeCart(){drawerOpen=false;$('#drawer').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true');$('#openCart').focus()}
+let lastPct=0, wasFree=null;
 function renderCart(){
   const body=$('#drBody'); const sub=subtotal(); const ship=sub>=FREE||sub===0?0:SHIP;
   if(step==='done'){body.innerHTML=`<div class="thanks"><div class="big">¡Pedido de prueba recibido!</div><p class="note">La tienda aún no está conectada a un sistema de pago, así que no se ha cobrado nada. Este paso se activará al conectar la pasarela.</p><button class="btn primary" id="keep">Seguir comprando</button></div>`;return}
@@ -862,9 +869,10 @@ function renderCart(){
     const fits=pool.filter(p=>p.price>=left).sort((a,b)=>a.price-b.price||(b.nuevo||0)-(a.nuevo||0));
     const under=pool.filter(p=>p.price<left).sort((a,b)=>b.price-a.price||(b.nuevo||0)-(a.nuevo||0));
     const pick=[...fits.slice(0,1),...under.filter(p=>p.cat==='charms').slice(0,fits.length?2:3)].slice(0,3);
-    sugg=pick.length?`<div class="sugg"><small>Complétalo con:</small>${pick.map(p=>`<div class="sg"><img src="${src(p.imgs[0])}" alt=""><span>${esc(p.name)}<b>${eur(p.price)}</b></span><button data-qadd="${p.id}" aria-label="Añadir ${esc(p.name)}">+ Añadir</button></div>`).join('')}</div>`:'';}
-  const shipHtml=`<div class="ship ${left>0?'':'ok'}"><div class="ship-top"><span class="ship-ic">${left>0?'🚚':'🎉'}</span><div>${left>0?`Te faltan <b>${eur(left)}</b> para el <b>envío gratis</b>`:'<b>¡Tienes envío gratis!</b><small>Te ahorras 4,95 €</small>'}</div></div><div class="bar"><i style="width:${Math.min(100,sub/FREE*100)}%"></i></div>${sugg}</div>`;
-  const lines=`<div class="lines">${items().map(([k,v])=>{const p=byId[k];return `<div class="line"><img src="${src(p.imgs[0])}" alt=""><div style="min-width:0"><b>${esc(p.name)}</b><div class="sub"><div class="qty"><button data-dec="${k}" aria-label="Quitar uno">−</button><output>${v}</output><button data-inc="${k}" aria-label="Añadir uno"${v>=maxQ(k)?' disabled title="No hay más unidades"':''}>+</button></div><button class="rm" data-rm="${k}">Quitar</button></div></div><span class="lp">${eur(p.price*v)}</span></div>`}).join('')}</div>`;
+    sugg=pick.length?`<div class="sugg"><small>Complétalo con:</small>${pick.map(p=>`<div class="sg"><img src="${srcS(p.imgs[0])}" alt=""><span>${esc(p.name)}<b>${eur(p.price)}</b></span><button data-qadd="${p.id}" aria-label="Añadir ${esc(p.name)}">+ Añadir</button></div>`).join('')}</div>`:'';}
+  const shipHtml=`<div class="ship ${left>0?'':'ok'}"><div class="ship-top"><span class="ship-ic">${left>0?'🚚':'🎉'}</span><div>${left>0?`Te faltan <b>${eur(left)}</b> para el <b>envío gratis</b>`:'<b>¡Tienes envío gratis!</b><small>Te ahorras 4,95 €</small>'}</div></div><div class="bar tb"><i style="width:${lastPct}%"></i><span class="truck" style="left:${lastPct}%">🚚</span></div>${sugg}</div>`;
+  const newPct=Math.min(100,sub/FREE*100);
+  const lines=`<div class="lines">${items().map(([k,v])=>{const p=byId[k];return `<div class="line"><img src="${srcS(p.imgs[0])}" alt=""><div style="min-width:0"><b>${esc(p.name)}</b><div class="sub"><div class="qty"><button data-dec="${k}" aria-label="Quitar uno">−</button><output>${v}</output><button data-inc="${k}" aria-label="Añadir uno"${v>=maxQ(k)?' disabled title="No hay más unidades"':''}>+</button></div><button class="rm" data-rm="${k}">Quitar</button></div></div><span class="lp">${eur(p.price*v)}</span></div>`}).join('')}</div>`;
   const totals=`<div class="tot"><span>Subtotal</span><span>${eur(sub)}</span></div><div class="tot"><span>Envío</span><span>${ship?eur(ship):'Gratis'}</span></div><div class="tot big"><span>Total</span><span>${eur(sub+ship)}</span></div>`;
   if(step==='checkout'){
     body.innerHTML=`${lines.replace('class="lines"','class="lines" style="flex:0 1 auto;max-height:30vh"')}<form class="dr-foot co" id="coForm" style="flex:1;overflow:auto">
@@ -878,6 +886,7 @@ function renderCart(){
       <p class="note">Modo demostración: todavía no se procesan pagos.</p></form>`;
     return;
   }
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{const b=document.querySelector('.ship .bar');if(b){b.querySelector('i').style.width=newPct+'%';b.querySelector('.truck').style.left=newPct+'%'}lastPct=newPct}));
   body.innerHTML=`${shipHtml}${lines}<div class="dr-foot">${totals}<button class="btn primary" id="toCheckout">Finalizar pedido</button></div>`;
 }
 $('#drawer').addEventListener('click',e=>{
@@ -914,7 +923,7 @@ $('#sort').addEventListener('change',e=>{sort=e.target.value;renderGrid()});
 renderChips();renderGrid();updateCount();
 
 const PCF=[...document.querySelectorAll('.pc-item')];
-document.querySelector('.pc-grid').addEventListener('click',e=>{const b=e.target.closest('.pc-open');if(!b)return;const f=PCF[+b.dataset.pc];const im=f.querySelector('img');$('#pcImg').src=im.src;$('#pcImg').alt=im.alt;const cr=f.querySelector('.pc-credit');$('#pcCap').textContent=f.querySelector('b').textContent+' · '+f.querySelector('figcaption span').textContent+(cr?' ('+cr.textContent+')':'');$('#pcBox').showModal()});
+document.querySelector('.pc-grid').addEventListener('click',e=>{const b=e.target.closest('.pc-open');if(!b)return;const f=PCF[+b.dataset.pc];const im=f.querySelector('img');$('#pcImg').src=im.dataset.full||im.src;$('#pcImg').alt=im.alt;const cr=f.querySelector('.pc-credit');$('#pcCap').textContent=f.querySelector('b').textContent+' · '+f.querySelector('figcaption span').textContent+(cr?' ('+cr.textContent+')':'');$('#pcBox').showModal()});
 $('#pcClose').onclick=()=>$('#pcBox').close();$('#pcBox').addEventListener('click',e=>{if(e.target===$('#pcBox'))$('#pcBox').close()});
 </script>
 
@@ -1021,6 +1030,39 @@ $('#pcClose').onclick=()=>$('#pcBox').close();$('#pcBox').addEventListener('clic
 .sg span b{display:block;color:var(--coral-ink)}
 .sg button{border:0;border-radius:99px;background:var(--coral);color:#fff;font-weight:700;padding:.4rem .75rem;cursor:pointer;white-space:nowrap}
 @media (max-width:560px){.rel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ===== BETA efectos ===== */
+.notice{position:relative;height:2.1em;overflow:hidden;display:grid;place-items:center}
+.notice span{grid-area:1/1;opacity:0;transform:translateY(8px);transition:opacity .5s,transform .5s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.notice span.on{opacity:1;transform:none}
+.notice span.out{opacity:0;transform:translateY(-8px)}
+header.top{transition:background .3s,box-shadow .3s}
+.top .wrap{transition:padding .3s}
+.top .logo{transition:transform .3s;transform-origin:left center}
+header.top.compact{background:color-mix(in srgb,var(--bg) 96%,transparent);box-shadow:0 8px 24px -18px rgba(80,40,30,.45)}
+header.top.compact .wrap{padding-block:5px}
+header.top.compact .logo{transform:scale(.86)}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (hover:hover){
+ .card{transform-style:preserve-3d;transition:transform .25s ease,box-shadow .25s ease}
+ .card.tilt{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-4px);box-shadow:0 22px 40px -22px rgba(120,60,50,.5)}
+ .card .ph::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.55),transparent 45%)}
+ .card.charm.tilt:not(.out) .ph::before{opacity:1}
+}
+@keyframes hop{0%{transform:translateY(0) rotate(0)}35%{transform:translateY(-14px) rotate(-10deg)}65%{transform:translateY(0) rotate(8deg)}100%{transform:translateY(0) rotate(0)}}
+.cat:hover img{animation:hop .6s cubic-bezier(.3,.7,.4,1.3)}
+.card .ph:not(.ld)::after{content:"";position:absolute;inset:0;z-index:0;opacity:1;transform:none;background:linear-gradient(100deg,transparent 30%,rgba(240,225,210,.6) 50%,transparent 70%) 0 0/200% 100%;animation:sk 1.2s linear infinite}
+@keyframes sk{from{background-position:150% 0}to{background-position:-50% 0}}
+.ship .bar.tb{position:relative;overflow:visible;margin-top:16px}
+.ship .bar.tb i{transition:width .9s cubic-bezier(.3,.7,.3,1)}
+.truck{position:absolute;top:50%;translate:-60% -62%;font-size:1.25rem;transition:left .9s cubic-bezier(.3,.7,.3,1);transform:scaleX(-1);line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}
+.ship.ok .truck{display:none}
+.ship .ship-ic{display:none}
+.confetti{position:fixed;left:50%;top:45%;z-index:200;pointer-events:none}
+.confetti i{position:absolute;width:9px;height:14px;border-radius:2px;animation:cf 1.6s cubic-bezier(.15,.7,.3,1) both}
+@keyframes cf{0%{transform:translate(0,0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(var(--x),calc(var(--y) + 380px)) rotate(var(--r));opacity:0}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.cat:hover img{animation:none}.card.tilt{transform:none}}
 </style>
 
 <script>
@@ -1071,6 +1113,26 @@ const _add=add; add=function(id,n=1){_add(id,n,window.__fromEl||null);window.__f
   if(via==='wa') window.open(url,'_blank','noopener'); else location.href=url;
   toast('Abriendo '+(via==='wa'?'WhatsApp':'tu correo')+' con tu encargo');});
  document.addEventListener('click',e=>{const a=e.target.closest('[data-enc]');if(a){const t=document.getElementById('encDesc');if(a.dataset.enc&&!t.value)t.value=a.dataset.enc;setTimeout(()=>t.focus({preventScroll:true}),400)}});})();
+</script>
+
+<script>
+/* BETA efectos */
+(()=>{const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ // barra de avisos
+ const n=[...document.querySelectorAll('#notice span')];let k=0;if(!red&&n.length>1)setInterval(()=>{n[k].classList.replace('on','out');const o=n[k];setTimeout(()=>o.classList.remove('out'),600);k=(k+1)%n.length;n[k].classList.add('on')},3800);
+ // cabecera compacta
+ const h=document.querySelector('header.top');const onS=()=>h.classList.toggle('compact',scrollY>80);addEventListener('scroll',onS,{passive:true});onS();
+ // aparecer al bajar
+ if(!red&&'IntersectionObserver' in window){const els=[...document.querySelectorAll('main > section:not(.hero) .wrap, main > section:not(.hero) > .soonstrip')];
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+  els.forEach(el=>{if(el.getBoundingClientRect().top>innerHeight){el.classList.add('rv');io.observe(el)}})}
+ // tarjetas 3D
+ if(!red&&matchMedia('(hover:hover)').matches){const g=document.getElementById('grid');
+  g.addEventListener('pointermove',e=>{const c=e.target.closest('.card');if(!c||c.classList.contains('out'))return;const r=c.getBoundingClientRect();const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+   c.classList.add('tilt');c.style.setProperty('--ry',((x-.5)*10).toFixed(2)+'deg');c.style.setProperty('--rx',((.5-y)*8).toFixed(2)+'deg');const ph=c.querySelector('.ph');const pr=ph.getBoundingClientRect();ph.style.setProperty('--mx',((e.clientX-pr.left)/pr.width*100)+'%');ph.style.setProperty('--my',((e.clientY-pr.top)/pr.height*100)+'%')});
+  g.addEventListener('pointerout',e=>{const c=e.target.closest('.card');if(c&&!c.contains(e.relatedTarget)){c.classList.remove('tilt');c.style.removeProperty('--rx');c.style.removeProperty('--ry')}})}
+ wasFree=subtotal()>=FREE; markLoaded();
+})();
 </script>
 
 </body>
