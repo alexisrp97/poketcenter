@@ -767,7 +767,8 @@ function renderGrid(){
   else if(sort==='desc') list.sort((a,b)=>b.price-a.price);
   else if(sort==='dex') list.sort((a,b)=>(a.dex||'9999').localeCompare(b.dex||'9999'));
   else { const pro=x=>/^of/.test(x.imgs[0])?1:0; list.sort((a,b)=>(b.nuevo||0)-(a.nuevo||0)||pro(b)-pro(a)||(b.feat||0)-(a.feat||0)||a.order-b.order); }
-  const rk=x=>x.soldout?2:x.soon?1:0; list.sort((a,b)=>rk(a)-rk(b));
+  const rk=x=>x.soldout?2:x.soon?1:0; const CO={charms:0,peluches:1,joyeria:2,cajas:3};
+  list.sort((a,b)=>rk(a)-rk(b)||(sort==='feat'?CO[a.cat]-CO[b.cat]:0));
   $('#shopTitle').textContent=filter==='all'?'Toda la tienda':CATS[filter];
   const outs=list.filter(p=>p.soldout); if(!showOut&&!q&&outs.length&&outs.length<list.length) list=list.filter(p=>!p.soldout); const hidOut=list.length<(list.length+outs.length)&&!list.some(p=>p.soldout)?outs.length:0;
   $('#grid').innerHTML=list.length?list.map((p,ix)=>`
