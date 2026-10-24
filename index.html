@@ -365,6 +365,8 @@ footer .links button:hover,footer .links a:hover{text-decoration-color:var(--cor
 <body>
 
 
+<div id="pkLoader" aria-hidden="true"><div class="box"><span class="pk-slot" data-anim="hop"></span><div class="txt">CARGANDO</div><div class="pkbar"><i></i></div></div></div>
+<button class="pk-hi" id="pkHi" aria-label="Hola, ¿buscas algo? Ir a encargos"><span class="pk-slot" data-anim="wave"></span><span class="bub" id="pkBub">¡Hola! ¿Buscas algo de Japón?</span><span class="x" id="pkX" aria-hidden="true">✕</span></button>
 <div class="notice" id="notice"><span class="on">Envío gratis en pedidos desde 50&nbsp;€</span><span>Productos originales de los Pokémon Center de Japón</span><span>¿Buscas algo concreto? Te lo traemos de Japón</span><span>Pedidos preparados en 24–48&nbsp;h desde España</span></div>
 
 <header class="top">
@@ -867,7 +869,7 @@ let lastPct=0, wasFree=null;
 function renderCart(){
   const body=$('#drBody'); const sub=subtotal(); const ship=sub>=FREE||sub===0?0:SHIP;
   if(step==='done'){body.innerHTML=`<div class="thanks"><div class="big">¡Pedido de prueba recibido!</div><p class="note">La tienda aún no está conectada a un sistema de pago, así que no se ha cobrado nada. Este paso se activará al conectar la pasarela.</p><button class="btn primary" id="keep">Seguir comprando</button></div>`;return}
-  if(!items().length){body.innerHTML=`<div class="thanks"><div class="big">Tu carrito está vacío</div><p class="note">Añade un charm o un peluche y aparecerá aquí.</p><button class="btn primary" id="keep">Ver la tienda</button></div>`;return}
+  if(!items().length){body.innerHTML=`<div class="thanks">${pkSVG({arm:"w1"},"pk-empty")}<div class="big">Tu carrito está vacío</div><p class="note">Añade un charm o un peluche y aparecerá aquí.</p><button class="btn primary" id="keep">Ver la tienda</button></div>`;return}
   const left=FREE-sub;
   let sugg='';
   if(left>0){const pool=PRODUCTS.filter(p=>!p.soldout&&!p.soon&&(cart[p.id]||0)<maxQ(p.id));
@@ -1068,6 +1070,31 @@ header.top.compact .logo{transform:scale(.86)}
 .confetti i{position:absolute;width:9px;height:14px;border-radius:2px;animation:cf 1.6s cubic-bezier(.15,.7,.3,1) both}
 @keyframes cf{0%{transform:translate(0,0) rotate(0);opacity:1}70%{opacity:1}100%{transform:translate(var(--x),calc(var(--y) + 380px)) rotate(var(--r));opacity:0}}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.cat:hover img{animation:none}.card.tilt{transform:none}}
+
+/* ===== BETA mascota pixel ===== */
+.pk-sprite{display:block;image-rendering:pixelated;shape-rendering:crispEdges}
+#pkLoader{position:fixed;inset:0;z-index:300;background:#e8efc8;display:grid;place-items:center;transition:opacity .45s ease,visibility .45s}
+#pkLoader.hide{opacity:0;visibility:hidden}
+#pkLoader .box{display:grid;justify-items:center;gap:14px}
+#pkLoader .pk-sprite{width:72px;height:76px;animation:pkhop .44s steps(2) infinite}
+#pkLoader .txt{font:700 14px/1 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#306230}
+#pkLoader .pkbar{width:150px;height:12px;border:3px solid #0f380f;padding:2px;box-sizing:content-box}
+#pkLoader .pkbar i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#306230 0 10px,transparent 10px 12px);animation:pkload 1.1s steps(12) forwards}
+@keyframes pkhop{50%{transform:translateY(-8px)}}
+@keyframes pkload{to{width:100%}}
+.pk-hi{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:flex-end;gap:6px;cursor:pointer;border:0;background:none;padding:0;transform:translateY(140%);transition:transform .5s cubic-bezier(.2,.9,.25,1.2)}
+.pk-hi.show{transform:none}
+.pk-hi .pk-sprite{width:44px;height:47px;filter:drop-shadow(0 3px 0 rgba(15,56,15,.18))}
+.pk-hi.hop .pk-slot{animation:pkjump .52s steps(4)}
+@keyframes pkjump{0%,100%{transform:none}25%{transform:translateY(-6px)}50%{transform:translateY(-10px)}75%{transform:translateY(-4px)}}
+.pk-slot{display:block}
+.pk-hi .bub{background:#e8efc8;color:#0f380f;border:3px solid #0f380f;padding:6px 9px;font:700 11px/1.3 ui-monospace,Menlo,monospace;margin-bottom:28px;position:relative;max-width:170px;text-align:left;box-shadow:4px 4px 0 #306230;transition:opacity .3s}
+.pk-hi .bub::after{content:"";position:absolute;left:-9px;bottom:6px;width:9px;height:9px;background:#0f380f;clip-path:polygon(100% 0,100% 100%,0 100%)}
+.pk-hi.quiet .bub{opacity:0;pointer-events:none}
+.pk-hi .x{position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;border:2px solid #0f380f;background:#e8efc8;color:#0f380f;font:700 11px/1 ui-monospace,monospace;display:grid;place-items:center}
+.pk-empty{display:block;width:52px;height:55px;margin:0 auto 6px}
+@media (max-width:560px){.pk-hi .pk-sprite{width:38px;height:40px}.pk-hi .bub{font-size:10.5px;max-width:140px;margin-bottom:24px}}
+@media (prefers-reduced-motion:reduce){#pkLoader{display:none}}
 </style>
 
 <script>
@@ -1137,6 +1164,68 @@ const _add=add; add=function(id,n=1){_add(id,n,window.__fromEl||null);window.__f
    c.classList.add('tilt');c.style.setProperty('--ry',((x-.5)*10).toFixed(2)+'deg');c.style.setProperty('--rx',((.5-y)*8).toFixed(2)+'deg');const ph=c.querySelector('.ph');const pr=ph.getBoundingClientRect();ph.style.setProperty('--mx',((e.clientX-pr.left)/pr.width*100)+'%');ph.style.setProperty('--my',((e.clientY-pr.top)/pr.height*100)+'%')});
   g.addEventListener('pointerout',e=>{const c=e.target.closest('.card');if(c&&!c.contains(e.relatedTarget)){c.classList.remove('tilt');c.style.removeProperty('--rx');c.style.removeProperty('--ry')}})}
  wasFree=subtotal()>=FREE; markLoaded();
+})();
+</script>
+
+<script>
+/* BETA: mascota pixel original de Poket Center (paleta Game Boy) */
+const PKC={1:'#0f380f',2:'#306230',3:'#8bac0f',4:'#e8efc8'};
+function pkGrid(o={}){
+ const W=16,H=17,g=Array.from({length:H},()=>Array(W).fill(0));
+ const inner=r=>[...r].map(Number);
+ const body={2:'1111111111'};
+ const rows={0:[6,'1111'],1:[5,'1....1']};
+ // asa superior
+ const put=(x,y,c)=>{if(y>=0&&y<H&&x>=0&&x<W&&c)g[y][x]=c};
+ const shift=o.shift||0;
+ const top=(x,y,c)=>put(x,y+shift,c);
+ [...'1111'].forEach((c,i)=>top(6+i,0,1)); top(5,1,1);top(10,1,1);
+ const R=[
+  [2,'1111111111',0],[3,'2222222222',1],[4,'2222222222',1],[5,'1111331111',1],
+  [6,'4444444444',1],[7,o.eyes==='closed'?'4444444444':'4114444114',1],[8,o.eyes==='closed'?'4114444114':'4114444114',1],
+  [9,'3441441443',1],[10,'4444114444',1],
+  [11,'2222222222',1],[12,'2333333332',1],[13,'2322442232',1],[14,'2333333332',1],[15,'1111111111',0]];
+ // filas 2-10 se desplazan con la reverencia (cabeza), 11-15 fijas (cuerpo)
+ R.forEach(([y,str,border])=>{const yy=y<=10?y+shift:y; [...str].forEach((c,i)=>{const v=+c; if(y>10||yy<11||true) put(3+i,yy,v)}); if(border){put(2,yy,1);put(13,yy,1)} else {}});
+ if(shift){for(let y=11;y<=11+0;y++){}}
+ // pies
+ put(4,16,1);put(5,16,1);put(10,16,1);put(11,16,1);
+ // brazos
+ const L=[[1,10],[1,11],[1,12]];
+ const arms={down:[[14,10],[14,11],[14,12]],w1:[[14,9],[15,8],[15,7],[15,6],[14,6]],w2:[[14,10],[15,10],[15,9],[15,8]],bow:[[14,12],[14,13]]};
+ (o.arm==='bow'?[[1,12],[1,13]]:L).forEach(([x,y])=>put(x,y,1));
+ (arms[o.arm||'down']).forEach(([x,y])=>put(x,y,1));
+ if(o.spark){[[0,2],[1,1],[1,3],[2,2],[14,1],[15,0],[13,0]].forEach(([x,y])=>put(x,y,3))}
+ return g}
+function pkSVG(o,cls){if(typeof o==='number')o={};const g=pkGrid(o);const d={1:'',2:'',3:'',4:''};g.forEach((row,y)=>row.forEach((c,x)=>{if(c)d[c]+=`M${x} ${y}h1v1h-1z`}));
+ return `<svg class="pk-sprite ${cls||''}" viewBox="0 0 16 17" shape-rendering="crispEdges" aria-hidden="true">${[4,3,2,1].map(c=>d[c]?`<path d="${d[c]}" fill="${PKC[c]}"/>`:'').join('')}</svg>`}
+(()=>{const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const slots=[...document.querySelectorAll('.pk-slot')];slots.forEach(el=>el.innerHTML=pkSVG({}));
+ // pantalla de carga
+ const L=document.getElementById('pkLoader');const ls=L.querySelector('.pk-slot');let lf=0;
+ const li=setInterval(()=>{lf++;ls.innerHTML=pkSVG(lf%4===3?{eyes:'closed'}:{arm:lf%2?'w1':'down'})},220);
+ const t0=performance.now();const done=()=>{const w=Math.max(0,900-(performance.now()-t0));setTimeout(()=>{L.classList.add('hide');clearInterval(li)},w)};
+ if(document.readyState==='complete')done();else addEventListener('load',done);setTimeout(()=>{L.classList.add('hide');clearInterval(li)},2500);
+ // mascota de la esquina: guion de animaciones
+ const H=document.getElementById('pkHi'),hs=H.querySelector('.pk-slot'),bub=document.getElementById('pkBub');
+ const show=o=>hs.innerHTML=pkSVG(o);
+ const say=t=>{bub.textContent=t;H.classList.remove('quiet')};
+ const wait=ms=>new Promise(r=>setTimeout(r,ms));
+ async function wave(n=3){for(let i=0;i<n;i++){show({arm:'w1'});await wait(260);show({arm:'w2'});await wait(260)}show({})}
+ async function bow(){show({shift:1,arm:'bow'});await wait(160);show({shift:3,arm:'bow',eyes:'closed'});await wait(900);show({shift:3,arm:'bow',eyes:'closed',spark:1});await wait(350);show({shift:1,arm:'bow'});await wait(160);show({})}
+ async function blink(){show({eyes:'closed'});await wait(140);show({})}
+ async function hop(){H.classList.add('hop');await wait(520);H.classList.remove('hop')}
+ let busy=false;async function run(f){if(busy||red)return;busy=true;try{await f()}finally{busy=false}}
+ let seen=false;try{seen=sessionStorage.getItem('pk-hi')==='1'}catch(e){}
+ setTimeout(async()=>{H.classList.add('show');if(seen){H.classList.add('quiet');return}
+  await run(async()=>{await wait(500);say('¡Hola!');await wave(3);await wait(400);say('よろしくね！');await bow();await wait(500);say('¿Buscas algo de Japón?');await hop()});
+  setTimeout(()=>H.classList.add('quiet'),6000)},1500);
+ // vida propia: parpadea, saluda o hace una reverencia de vez en cuando
+ setInterval(()=>{if(!H.classList.contains('show'))return;const r=Math.random();run(r<.55?blink:r<.8?()=>wave(2):r<.92?bow:hop)},3800);
+ H.addEventListener('mouseenter',()=>run(()=>wave(2)));
+ H.addEventListener('click',e=>{if(e.target.id==='pkX'){H.classList.remove('show');try{sessionStorage.setItem('pk-hi','1')}catch(e){};return}
+  if(H.classList.contains('quiet')){say('¿Te ayudo a encontrar algo?');run(bow);setTimeout(()=>H.classList.add('quiet'),5000);return}
+  document.getElementById('encargos').scrollIntoView({behavior:'smooth'});try{sessionStorage.setItem('pk-hi','1')}catch(e){}});
 })();
 </script>
 
